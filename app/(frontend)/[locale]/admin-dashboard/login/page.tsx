@@ -26,8 +26,7 @@ export default function AdminLoginPage() {
         body: JSON.stringify({ email: form.get("email"), password: form.get("password") }),
       });
       if (res.ok) {
-        router.push("/admin-dashboard");
-        router.refresh();
+        window.location.href = "/fr/admin-dashboard";
       } else setError(t("common.error"));
     } catch {
       setError(t("common.error"));

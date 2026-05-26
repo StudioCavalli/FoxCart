@@ -43,14 +43,13 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d?.user) setUser(d.user);
-        else router.push("/admin-dashboard/login");
+        else window.location.href = "/fr/admin-dashboard/login";
       });
   }, [router]);
 
   const logout = useCallback(async () => {
     await fetch("/api/admin/me", { method: "DELETE" });
-    router.push("/admin-dashboard/login");
-    router.refresh();
+    window.location.href = "/fr/admin-dashboard/login";
   }, [router]);
 
   if (!user) return null;
