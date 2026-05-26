@@ -52,7 +52,7 @@ export default function AccountPage() {
             </Reveal>
             <Reveal delay={80}>
               <h1 className="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[0.95] tracking-[-0.02em]">
-                Bonjour {user.firstName}
+                {t("greeting", { name: user.firstName })}
               </h1>
             </Reveal>
             <Reveal delay={160}>
@@ -60,7 +60,6 @@ export default function AccountPage() {
             </Reveal>
           </Container>
         </section>
-
         <section className="border-b border-border">
           <Container>
             <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">

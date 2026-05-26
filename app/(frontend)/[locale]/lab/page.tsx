@@ -15,7 +15,7 @@ export default async function LabPage({ params }: { params: Promise<{ locale: st
 }
 
 function LabView() {
-  const t = useTranslations("Home");
+  const t = useTranslations("Lab");
 
   return (
     <>
@@ -25,15 +25,15 @@ function LabView() {
           <Pattern />
           <Container className="relative">
             <Reveal>
-              <SectionHeader number="00" label="R&D Lab" className="mb-6" />
+              <SectionHeader number="00" label={t("section_label")} className="mb-6" />
             </Reveal>
             <Reveal delay={80}>
               <h1 className="max-w-4xl text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[0.95] tracking-[-0.03em]">
-                FoxStudio
+                {t("title")}
               </h1>
             </Reveal>
             <Reveal delay={160}>
-              <p className="mt-6 max-w-lg text-lg text-muted-foreground">{t("lab.subtitle")}</p>
+              <p className="mt-6 max-w-lg text-lg text-muted-foreground">{t("mission_text")}</p>
             </Reveal>
           </Container>
         </section>
@@ -43,22 +43,17 @@ function LabView() {
             <div className="grid gap-16 md:grid-cols-2">
               <Reveal>
                 <div>
-                  <SectionHeader number="01" label="Mission" className="mb-6" />
+                  <SectionHeader number="01" label={t("mission_title")} className="mb-6" />
                   <p className="text-lg leading-relaxed text-muted-foreground">
-                    FoxStudio est le laboratoire R&D de FoxCase. C'est ici que naissent les
-                    innovations de demain : intelligence artificielle, 3D temps reel, edge
-                    computing, interfaces immersives. Ce qui est explore au Lab finit par enrichir
-                    les solutions que nous proposons a nos clients.
+                    {t("mission_text")}
                   </p>
                 </div>
               </Reveal>
               <Reveal delay={100}>
                 <div>
-                  <SectionHeader number="02" label="Filiation" className="mb-6" />
+                  <SectionHeader number="02" label={t("filiation_title")} className="mb-6" />
                   <p className="text-lg leading-relaxed text-muted-foreground">
-                    FoxCase delivre. FoxStudio explore. Les deux entites se nourrissent mutuellement
-                    : les contraintes terrain de l'agence orientent la recherche du Lab, et les
-                    decouvertes du Lab repoussent les limites de ce que l'agence peut proposer.
+                    {t("filiation_text")}
                   </p>
                 </div>
               </Reveal>
@@ -76,11 +71,9 @@ function LabView() {
                 <Pattern className="opacity-[0.06]" />
                 <div className="relative">
                   <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
-                    Voir les projets du Lab
+                    {t("see_projects")}
                   </h2>
-                  <p className="mt-3 text-muted-foreground">
-                    Explorez les experimentations, prototypes et innovations en cours.
-                  </p>
+                  <p className="mt-3 text-muted-foreground">{t("see_projects_subtitle")}</p>
                   <a
                     href="https://studio.foxcase.fr"
                     target="_blank"

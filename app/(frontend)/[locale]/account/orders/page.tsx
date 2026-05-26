@@ -14,7 +14,6 @@ interface Order {
   status: string;
   total: number;
   createdAt: string;
-  items: { quantity: number }[];
 }
 
 const statusColors: Record<string, string> = {
@@ -53,13 +52,12 @@ export default function OrdersPage() {
             </Reveal>
           </Container>
         </section>
-
         <section className="py-16">
           <Container>
             {orders.length === 0 ? (
               <div className="py-24 text-center">
                 <Package className="mx-auto h-12 w-12 text-muted-foreground/30" strokeWidth={1} />
-                <p className="mt-4 text-muted-foreground">Aucune commande pour le moment.</p>
+                <p className="mt-4 text-muted-foreground">{t("no_orders")}</p>
               </div>
             ) : (
               <div className="space-y-px bg-border">

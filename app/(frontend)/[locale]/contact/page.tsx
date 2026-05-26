@@ -3,7 +3,6 @@
 import { Container, Footer, Header } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Reveal, SectionHeader } from "@/components/visual";
 import { Map } from "@/components/visual/Map";
@@ -14,6 +13,7 @@ import { useState } from "react";
 
 export default function ContactPage() {
   const t = useTranslations("Contact");
+  const tCommon = useTranslations("Common");
   const [submitted, setSubmitted] = useState(false);
 
   return (
@@ -23,7 +23,7 @@ export default function ContactPage() {
         <section className="border-b border-border py-32">
           <Container>
             <Reveal>
-              <SectionHeader number="00" label="Contact" className="mb-6" />
+              <SectionHeader number="00" label={t("title")} className="mb-6" />
             </Reveal>
             <Reveal delay={80}>
               <h1 className="max-w-3xl text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[0.95] tracking-[-0.03em]">
@@ -41,7 +41,7 @@ export default function ContactPage() {
             <div className="grid gap-16 lg:grid-cols-[1fr_400px]">
               <Reveal>
                 <div>
-                  <SectionHeader number="01" label="Message" className="mb-8" />
+                  <SectionHeader number="01" label={t("section_message")} className="mb-8" />
                   {submitted ? (
                     <div className="py-16 text-center">
                       <p className="text-lg font-medium">{t("success")}</p>
@@ -56,7 +56,12 @@ export default function ContactPage() {
                     >
                       <div className="grid gap-6 sm:grid-cols-2">
                         <div className="space-y-2">
-                          <Label htmlFor="name">{t("name")}</Label>
+                          <label
+                            htmlFor="name"
+                            className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
+                          >
+                            {t("name")}
+                          </label>
                           <Input
                             id="name"
                             name="name"
@@ -65,7 +70,12 @@ export default function ContactPage() {
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="email">{t("email")}</Label>
+                          <label
+                            htmlFor="email"
+                            className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
+                          >
+                            {tCommon("email")}
+                          </label>
                           <Input
                             id="email"
                             name="email"
@@ -76,7 +86,12 @@ export default function ContactPage() {
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="phone">{t("phone")}</Label>
+                        <label
+                          htmlFor="phone"
+                          className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
+                        >
+                          {t("phone")}
+                        </label>
                         <Input
                           id="phone"
                           name="phone"
@@ -85,7 +100,12 @@ export default function ContactPage() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="subject">{t("subject")}</Label>
+                        <label
+                          htmlFor="subject"
+                          className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
+                        >
+                          {t("subject")}
+                        </label>
                         <Input
                           id="subject"
                           name="subject"
@@ -94,7 +114,12 @@ export default function ContactPage() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="message">{t("message")}</Label>
+                        <label
+                          htmlFor="message"
+                          className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
+                        >
+                          {t("message")}
+                        </label>
                         <Textarea
                           id="message"
                           name="message"
@@ -117,12 +142,11 @@ export default function ContactPage() {
                   )}
                 </div>
               </Reveal>
-
               <Reveal delay={100}>
                 <div>
-                  <SectionHeader number="02" label="Coordonnees" className="mb-8" />
+                  <SectionHeader number="02" label={t("section_info")} className="mb-8" />
                   <div className="space-y-6">
-                    <InfoRow icon={Mail} label="Email">
+                    <InfoRow icon={Mail} label={tCommon("email")}>
                       <a
                         href={`mailto:${SITE.email}`}
                         className="text-sm transition-colors hover:text-accent"
@@ -130,14 +154,14 @@ export default function ContactPage() {
                         {SITE.email}
                       </a>
                     </InfoRow>
-                    <InfoRow icon={MapPin} label="Adresse">
+                    <InfoRow icon={MapPin} label={t("location")}>
                       <p className="text-sm">{SITE.address.street}</p>
                       <p className="text-sm">
                         {SITE.address.postalCode} {SITE.address.city}, {SITE.address.country}
                       </p>
                     </InfoRow>
-                    <InfoRow icon={Phone} label="Telephone">
-                      <p className="text-sm">Sur rendez-vous</p>
+                    <InfoRow icon={Phone} label={t("phone")}>
+                      <p className="text-sm">{t("by_appointment")}</p>
                     </InfoRow>
                   </div>
                 </div>
@@ -146,7 +170,6 @@ export default function ContactPage() {
           </Container>
         </section>
 
-        {/* Map */}
         <section className="border-b border-border">
           <div className="relative h-[400px] w-full overflow-hidden">
             <Map />

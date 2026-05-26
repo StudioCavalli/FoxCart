@@ -10,6 +10,7 @@ import { useState } from "react";
 
 export default function LoginPage() {
   const t = useTranslations("Account");
+  const tCommon = useTranslations("Common");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -19,7 +20,6 @@ export default function LoginPage() {
     setLoading(true);
     setError("");
     const form = new FormData(e.currentTarget);
-
     try {
       const res = await fetch("/api/customers/login", {
         method: "POST",
@@ -29,11 +29,9 @@ export default function LoginPage() {
       if (res.ok) {
         router.push("/account");
         router.refresh();
-      } else {
-        setError("Email ou mot de passe incorrect.");
-      }
+      } else setError(t("invalid_credentials"));
     } catch {
-      setError("Une erreur est survenue.");
+      setError(t("generic_error"));
     } finally {
       setLoading(false);
     }
@@ -41,12 +39,7 @@ export default function LoginPage() {
 
   return (
     <div className="relative flex h-screen overflow-hidden">
-      <AuthPanel
-        title="Votre espace"
-        subtitle="Suivez vos commandes, gerez vos adresses et accedez a l'ensemble de vos services."
-      />
-
-      {/* Right — form */}
+      <AuthPanel title={t("auth_panel.login_title")} subtitle={t("auth_panel.login_subtitle")} />
       <div className="flex flex-1 flex-col justify-center overflow-y-auto px-8 py-16 sm:px-16 lg:px-24">
         <div className="mx-auto w-full max-w-sm">
           <Link
@@ -55,19 +48,17 @@ export default function LoginPage() {
           >
             FoxCase
           </Link>
-
           <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
             00 — {t("login_title")}
           </div>
           <h1 className="mt-3 text-2xl font-bold tracking-tight">{t("login_title")}</h1>
-
           <form onSubmit={handleSubmit} className="mt-10 space-y-5">
             <div>
               <label
                 htmlFor="email"
                 className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
               >
-                Email
+                {tCommon("email")}
               </label>
               <Input
                 id="email"
@@ -82,7 +73,7 @@ export default function LoginPage() {
                 htmlFor="password"
                 className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
               >
-                Mot de passe
+                {tCommon("password")}
               </label>
               <Input
                 id="password"
@@ -92,9 +83,7 @@ export default function LoginPage() {
                 className="h-12 rounded-none border-border bg-transparent"
               />
             </div>
-
             {error && <p className="text-sm text-destructive">{error}</p>}
-
             <button
               type="submit"
               disabled={loading}
@@ -107,13 +96,12 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
           <div className="mt-8 border-t border-border pt-6">
             <Link
               href="/account/register"
               className="group flex items-center justify-between py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              <span>Pas encore de compte ?</span>
+              <span>{t("no_account")}</span>
               <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent">
                 {t("register_title")}
               </span>

@@ -9,6 +9,7 @@ import { useState } from "react";
 
 export default function ForgotPasswordPage() {
   const t = useTranslations("Account");
+  const tCommon = useTranslations("Common");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
@@ -21,13 +22,9 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen">
-      <AuthPanel
-        title="Mot de passe oublie"
-        subtitle="Renseignez votre email, nous vous enverrons un lien de reinitialisation."
-      />
-
-      <div className="flex flex-1 flex-col justify-center px-8 sm:px-16 lg:px-24">
+    <div className="relative flex h-screen overflow-hidden">
+      <AuthPanel title={t("auth_panel.forgot_title")} subtitle={t("auth_panel.forgot_subtitle")} />
+      <div className="flex flex-1 flex-col justify-center overflow-y-auto px-8 py-16 sm:px-16 lg:px-24">
         <div className="mx-auto w-full max-w-sm">
           <Link
             href="/"
@@ -35,7 +32,6 @@ export default function ForgotPasswordPage() {
           >
             FoxCase
           </Link>
-
           <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
             00 — {t("reset_password")}
           </div>
@@ -46,15 +42,12 @@ export default function ForgotPasswordPage() {
               <div className="flex h-16 w-16 items-center justify-center border border-accent">
                 <Check className="h-6 w-6 text-accent" strokeWidth={1.5} />
               </div>
-              <p className="mt-6 text-sm text-muted-foreground">
-                Si un compte existe avec cette adresse, un email de reinitialisation a ete envoye.
-                Verifiez votre boite de reception.
-              </p>
+              <p className="mt-6 text-sm text-muted-foreground">{t("reset_sent")}</p>
               <Link
                 href="/account/login"
                 className="group mt-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.15em] text-accent transition-colors hover:text-accent-hover"
               >
-                Retour a la connexion
+                {t("back_to_login")}
                 <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
@@ -65,7 +58,7 @@ export default function ForgotPasswordPage() {
                   htmlFor="email"
                   className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
                 >
-                  Email
+                  {tCommon("email")}
                 </label>
                 <Input
                   id="email"
@@ -75,14 +68,13 @@ export default function ForgotPasswordPage() {
                   className="h-12 rounded-none border-border bg-transparent"
                 />
               </div>
-
               <button
                 type="submit"
                 disabled={loading}
                 className="group flex h-12 w-full items-center justify-center gap-2 bg-foreground font-mono text-[11px] uppercase tracking-[0.15em] text-background transition-colors hover:bg-accent"
               >
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                Envoyer le lien
+                {t("send_link")}
                 {!loading && (
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 )}
@@ -95,7 +87,7 @@ export default function ForgotPasswordPage() {
               href="/account/login"
               className="block py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground/60 transition-colors hover:text-muted-foreground"
             >
-              Retour a la connexion
+              {t("back_to_login")}
             </Link>
           </div>
         </div>

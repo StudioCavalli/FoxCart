@@ -39,9 +39,55 @@
       "cta_services": "Nos services",
       "cta_shop": "La boutique"
     },
+    "manifesto": "Manifeste",
+    "location": "Cannes, France · CET",
+    "tagline": "Agence digitale.",
+    "established": "EST. 2021",
+    "scroll": "scroll",
+    "see_all": "Voir tout",
     "services": {
       "title": "Nos expertises",
       "subtitle": "Des solutions adaptées à chaque besoin"
+    },
+    "service_items": {
+      "strategie": {
+        "title": "Stratégie",
+        "description": "Business plan, business model, étude de marché. Structurez votre vision."
+      },
+      "digital": {
+        "title": "Digital",
+        "description": "Sites web, applications mobiles, SaaS. Du concept au déploiement."
+      },
+      "communication": {
+        "title": "Communication",
+        "description": "Identité visuelle, charte graphique, community management."
+      },
+      "gestion": {
+        "title": "Gestion",
+        "description": "ERP/CRM sur mesure, chefferie de projet, consulting digital."
+      },
+      "formation": {
+        "title": "Formation",
+        "description": "Formations dev, outils digitaux, workshops pour écoles et entreprises."
+      },
+      "support": {
+        "title": "Support",
+        "description": "Maintenance, hébergement, support technique. On veille sur vos outils."
+      }
+    },
+    "marquee": {
+      "business_plan": "Business Plan",
+      "sites_web": "Sites Web",
+      "apps_mobiles": "Applications Mobiles",
+      "saas": "SaaS",
+      "erp": "ERP",
+      "identite_visuelle": "Identité Visuelle",
+      "formation": "Formation",
+      "ecommerce": "E-commerce",
+      "chefferie": "Chefferie de Projet",
+      "kakemonos": "Kakémonos",
+      "cartes_visite": "Cartes de Visite",
+      "livres": "Livres"
     },
     "products": {
       "title": "Supports commerciaux",
@@ -70,6 +116,8 @@
   "Services": {
     "title": "Nos services",
     "subtitle": "Des prestations sur mesure pour professionnels et particuliers",
+    "prestations": "Prestations",
+    "services_count": "{count} services",
     "from": "À partir de",
     "on_quote": "Sur devis",
     "per_month": "/mois",
@@ -77,28 +125,36 @@
     "per_hour": "/heure",
     "learn_more": "En savoir plus",
     "get_quote": "Demander un devis",
-    "process": "Notre processus",
+    "process": "Processus",
     "deliverables": "Livrables",
     "timeline": "Délai estimé",
-    "faq": "Questions fréquentes"
+    "faq": "Questions fréquentes",
+    "pricing": "Tarifs",
+    "choose": "Choisir",
+    "interested": "Intéressé par cette prestation ?"
   },
   "Shop": {
     "title": "La boutique",
     "subtitle": "Tous vos supports commerciaux en un seul endroit",
+    "all": "Tout",
+    "category": "Catégorie",
     "filters": "Filtres",
     "sort": "Trier par",
     "sort_price_asc": "Prix croissant",
     "sort_price_desc": "Prix décroissant",
     "sort_newest": "Nouveautés",
     "sort_popular": "Populaires",
-    "no_results": "Aucun produit trouvé",
+    "no_results": "Aucun produit pour le moment. Ajoutez des produits depuis l'admin.",
+    "admin_link": "Admin CMS",
     "add_to_cart": "Ajouter au panier",
     "in_stock": "En stock",
     "on_order": "Sur commande",
     "remaining": "{count} restant(s)",
     "reviews": "Avis",
     "similar": "Produits similaires",
-    "specifications": "Caractéristiques"
+    "specifications": "Caractéristiques",
+    "description": "Description",
+    "ref": "Réf"
   },
   "Cart": {
     "title": "Votre panier",
@@ -134,7 +190,14 @@
     "success_message": "Merci pour votre commande. Un email de confirmation vous a été envoyé.",
     "order_number": "N° de commande",
     "view_orders": "Voir mes commandes",
-    "continue": "Continuer les achats"
+    "continue": "Continuer les achats",
+    "empty_cart": "Votre panier est vide.",
+    "summary": "Récapitulatif",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "stripe_placeholder": "Stripe Elements sera intégré ici une fois les clés API configurées. Le paiement sera sécurisé (PCI DSS niveau 1).",
+    "payment_methods": "CB / Apple Pay / Google Pay",
+    "confirmation": "Confirmation"
   },
   "Account": {
     "title": "Mon compte",
@@ -146,7 +209,36 @@
     "login_title": "Connexion",
     "register_title": "Inscription",
     "forgot_password": "Mot de passe oublié ?",
-    "reset_password": "Réinitialiser le mot de passe"
+    "reset_password": "Réinitialiser le mot de passe",
+    "greeting": "Bonjour {name}",
+    "no_orders": "Aucune commande pour le moment.",
+    "profile": "Profil",
+    "password": "Mot de passe",
+    "old_password": "Ancien mot de passe",
+    "new_password": "Nouveau mot de passe",
+    "save": "Enregistrer",
+    "change": "Modifier",
+    "auth_panel": {
+      "login_title": "Votre espace",
+      "login_subtitle": "Suivez vos commandes, gérez vos adresses et accédez à l'ensemble de vos services.",
+      "register_title": "Rejoignez-nous",
+      "register_subtitle": "Créez votre compte pour commander, suivre vos livraisons et gérer vos projets.",
+      "forgot_title": "Mot de passe oublié",
+      "forgot_subtitle": "Renseignez votre email, nous vous enverrons un lien de réinitialisation."
+    },
+    "no_account": "Pas encore de compte ?",
+    "has_account": "Déjà un compte ?",
+    "reset_sent": "Si un compte existe avec cette adresse, un email de réinitialisation a été envoyé. Vérifiez votre boîte de réception.",
+    "send_link": "Envoyer le lien",
+    "back_to_login": "Retour à la connexion",
+    "search_company": "Rechercher votre entreprise",
+    "search_company_placeholder": "Nom, SIREN ou SIRET...",
+    "company_exists": "L'entreprise {name} (SIRET {siret}) est déjà enregistrée.",
+    "select_company": "Veuillez sélectionner votre entreprise via la recherche.",
+    "individual": "Particulier",
+    "professional": "Professionnel",
+    "invalid_credentials": "Email ou mot de passe incorrect.",
+    "generic_error": "Une erreur est survenue."
   },
   "Quote": {
     "title": "Demande de devis",
@@ -163,7 +255,10 @@
     "timeline": "Délai souhaité",
     "submit": "Envoyer ma demande",
     "success_title": "Demande envoyée !",
-    "success_message": "Nous avons bien reçu votre demande et vous répondrons sous 48h."
+    "success_message": "Nous avons bien reçu votre demande et vous répondrons sous 48h.",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "describe_placeholder": "Décrivez votre projet, vos besoins, vos objectifs..."
   },
   "Contact": {
     "title": "Contact",
@@ -173,11 +268,56 @@
     "phone": "Téléphone",
     "subject": "Sujet",
     "message": "Message",
+    "section_message": "Message",
+    "section_info": "Coordonnées",
     "type": "Vous êtes",
     "individual": "Particulier",
     "professional": "Professionnel",
     "submit": "Envoyer",
-    "success": "Message envoyé avec succès !"
+    "success": "Message envoyé avec succès !",
+    "location": "Adresse",
+    "by_appointment": "Sur rendez-vous"
+  },
+  "About": {
+    "title": "À propos",
+    "heading": "Nous construisons les outils digitaux de demain.",
+    "mission_title": "Mission",
+    "mission_text": "FoxCase est une agence digitale qui accompagne professionnels et particuliers dans la conception, le développement et le déploiement de leurs projets numériques. De la stratégie à la mise en production, nous couvrons l'ensemble de la chaîne de valeur digitale.",
+    "approach_title": "Approche",
+    "approach_text": "Chaque projet est unique. Nous privilégions une approche sur mesure, transparente et itérative. Pas de templates génériques, pas de solutions pré-fabriquées. Du code propre, des architectures solides et un design qui sert le produit.",
+    "values_title": "Valeurs",
+    "values": {
+      "transparency": {
+        "title": "Transparence",
+        "description": "Communication claire, pas de jargon inutile, des livrables visibles à chaque étape."
+      },
+      "quality": {
+        "title": "Qualité",
+        "description": "Code propre, architectures solides, tests automatisés. On ne coupe pas les coins."
+      },
+      "custom": {
+        "title": "Sur mesure",
+        "description": "Chaque projet est unique. Pas de templates, pas de solutions pré-fabriquées."
+      },
+      "commitment": {
+        "title": "Engagement",
+        "description": "On s'investit dans chaque projet comme si c'était le nôtre. Support post-livraison inclus."
+      }
+    },
+    "innovation_title": "Innovation",
+    "foxstudio_title": "FoxStudio",
+    "foxstudio_text": "Notre laboratoire R&D explore les technologies de pointe : IA, 3D temps réel, edge computing. Les innovations d'aujourd'hui deviennent les solutions de demain.",
+    "discover": "Découvrir"
+  },
+  "Lab": {
+    "section_label": "R&D Lab",
+    "title": "FoxStudio",
+    "mission_title": "Mission",
+    "mission_text": "FoxStudio est le laboratoire R&D de FoxCase. C'est ici que naissent les innovations de demain : intelligence artificielle, 3D temps réel, edge computing, interfaces immersives. Ce qui est exploré au Lab finit par enrichir les solutions que nous proposons à nos clients.",
+    "filiation_title": "Filiation",
+    "filiation_text": "FoxCase délivre. FoxStudio explore. Les deux entités se nourrissent mutuellement : les contraintes terrain de l'agence orientent la recherche du Lab, et les découvertes du Lab repoussent les limites de ce que l'agence peut proposer.",
+    "see_projects": "Voir les projets du Lab",
+    "see_projects_subtitle": "Explorez les expérimentations, prototypes et innovations en cours."
   },
   "Blog": {
     "title": "Blog",
@@ -201,6 +341,17 @@
     "no_results": "Aucun résultat",
     "see_all": "Voir tout",
     "price": "{amount} €",
-    "free": "Gratuit"
+    "free": "Gratuit",
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "Email",
+    "password": "Mot de passe",
+    "phone": "Téléphone",
+    "company": "Entreprise",
+    "address": "Adresse",
+    "city": "Ville",
+    "postal_code": "Code postal",
+    "country": "Pays",
+    "total": "Total"
   }
 }

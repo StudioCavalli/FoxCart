@@ -74,7 +74,7 @@ function Header() {
           <Link
             href="/account"
             className="inline-flex h-9 w-9 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
-            aria-label="Mon compte"
+            aria-label={t("account")}
           >
             <User className="h-4 w-4" strokeWidth={1.5} />
           </Link>

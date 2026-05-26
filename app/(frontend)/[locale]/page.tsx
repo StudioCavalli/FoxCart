@@ -8,6 +8,7 @@ import {
   BarChart3,
   Code2,
   GraduationCap,
+  type LucideIcon,
   Megaphone,
   Quote,
   Settings,
@@ -24,14 +25,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
 function HomeView() {
   const t = useTranslations("Home");
+  const tCommon = useTranslations("Common");
 
   return (
     <>
       <Header />
       <main>
         <HeroSection t={t} />
-        <MarqueeBand />
-        <ServicesSection t={t} />
+        <MarqueeBand t={t} />
+        <ServicesSection t={t} tCommon={tCommon} />
         <StatsSection t={t} />
         <TestimonialsSection t={t} />
         <CtaSection t={t} />
@@ -42,37 +44,32 @@ function HomeView() {
   );
 }
 
-/* ─── Hero ──────────────────────────────────────────────────────────────────── */
+type THome = ReturnType<typeof useTranslations<"Home">>;
+type TCommon = ReturnType<typeof useTranslations<"Common">>;
 
-function HeroSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
+function HeroSection({ t }: { t: THome }) {
   return (
     <section className="relative flex min-h-[calc(100vh-56px)] flex-col overflow-hidden border-b border-border">
       <Pattern />
-
-      {/* Top metadata strip */}
       <div className="flex items-center justify-between border-b border-border px-[var(--grid-margin)] py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-        <span>00 — Manifeste</span>
-        <span className="hidden tabular-nums md:inline">Cannes, France · CET</span>
+        <span>00 — {t("manifesto")}</span>
+        <span className="hidden tabular-nums md:inline">{t("location")}</span>
         <span className="tabular-nums">v0.1.0</span>
       </div>
-
-      {/* Main content */}
       <div className="flex flex-1 flex-col justify-end gap-16 px-[var(--grid-margin)] py-16 md:gap-24 md:py-24">
         <div>
           <h1 className="max-w-5xl font-bold leading-[0.92] tracking-[-0.03em] text-[clamp(3rem,10vw,10rem)]">
             FoxCase<span className="text-accent">.</span>
             <br />
-            <span className="text-foreground/50">Agence digitale.</span>
+            <span className="text-foreground/50">{t("tagline")}</span>
           </h1>
         </div>
-
         <div className="grid gap-8 md:grid-cols-2 md:items-end">
           <div className="space-y-3 text-[clamp(1rem,2vw,1.25rem)] leading-snug md:max-w-[30ch]">
             <Reveal>
               <p>{t("hero.subtitle")}</p>
             </Reveal>
           </div>
-
           <Reveal delay={150}>
             <div className="flex flex-col gap-4 sm:flex-row md:justify-end">
               <Link
@@ -92,43 +89,42 @@ function HeroSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
           </Reveal>
         </div>
       </div>
-
-      {/* Bottom metadata strip */}
       <div className="flex items-center justify-between border-t border-border px-[var(--grid-margin)] py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-        <span aria-hidden="true">--- scroll</span>
-        <span className="hidden md:inline">{SITE.name} · Agence digitale</span>
-        <span className="tabular-nums">EST. 2021</span>
+        <span aria-hidden="true">--- {t("scroll")}</span>
+        <span className="hidden md:inline">
+          {SITE.name} · {t("tagline")}
+        </span>
+        <span className="tabular-nums">{t("established")}</span>
       </div>
     </section>
   );
 }
 
-/* ─── Marquee ───────────────────────────────────────────────────────────────── */
-
-function MarqueeBand() {
+function MarqueeBand({ t }: { t: THome }) {
+  const keys = [
+    "business_plan",
+    "sites_web",
+    "apps_mobiles",
+    "saas",
+    "erp",
+    "identite_visuelle",
+    "formation",
+    "ecommerce",
+    "chefferie",
+    "kakemonos",
+    "cartes_visite",
+    "livres",
+  ] as const;
   return (
-    <div className="border-b border-border py-4 overflow-hidden">
+    <div className="overflow-hidden border-b border-border py-4">
       <Marquee
         speed={40}
         className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground"
       >
-        {[
-          "Business Plan",
-          "Sites Web",
-          "Applications Mobiles",
-          "SaaS",
-          "ERP",
-          "Identite Visuelle",
-          "Formation",
-          "E-commerce",
-          "Chefferie de Projet",
-          "Kakemonos",
-          "Cartes de Visite",
-          "Livres",
-        ].map((item) => (
-          <span key={item} className="mx-6 inline-flex items-center gap-3">
+        {keys.map((key) => (
+          <span key={key} className="mx-6 inline-flex items-center gap-3">
             <span className="h-1 w-1 rounded-full bg-accent" />
-            {item}
+            {t(`marquee.${key}`)}
           </span>
         ))}
       </Marquee>
@@ -136,9 +132,24 @@ function MarqueeBand() {
   );
 }
 
-/* ─── Services ──────────────────────────────────────────────────────────────── */
+const serviceIcons: Record<string, LucideIcon> = {
+  strategie: BarChart3,
+  digital: Code2,
+  communication: Megaphone,
+  gestion: Settings,
+  formation: GraduationCap,
+  support: Wrench,
+};
+const serviceKeys = [
+  "strategie",
+  "digital",
+  "communication",
+  "gestion",
+  "formation",
+  "support",
+] as const;
 
-function ServicesSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
+function ServicesSection({ t, tCommon }: { t: THome; tCommon: TCommon }) {
   return (
     <section className="border-b border-border py-32">
       <Container>
@@ -158,43 +169,44 @@ function ServicesSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> 
               href="/services"
               className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground"
             >
-              Voir tout
+              {t("see_all")}
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
             </Link>
           </Reveal>
         </div>
-
         <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s, i) => (
-            <Reveal key={s.title} delay={100 + i * 60} className="h-full">
-              <div className="flex h-full flex-col bg-background p-8 transition-colors hover:bg-surface">
-                <div className="flex items-center justify-between">
-                  <s.icon className="h-5 w-5 text-accent" strokeWidth={1.5} />
-                  <span className="font-mono text-xs text-muted-foreground/40">0{i + 1}</span>
+          {serviceKeys.map((key, i) => {
+            const Icon = serviceIcons[key]!;
+            return (
+              <Reveal key={key} delay={100 + i * 60} className="h-full">
+                <div className="flex h-full flex-col bg-background p-8 transition-colors hover:bg-surface">
+                  <div className="flex items-center justify-between">
+                    <Icon className="h-5 w-5 text-accent" strokeWidth={1.5} />
+                    <span className="font-mono text-xs text-muted-foreground/40">0{i + 1}</span>
+                  </div>
+                  <h3 className="mt-6 text-lg font-semibold tracking-tight">
+                    {t(`service_items.${key}.title`)}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    {t(`service_items.${key}.description`)}
+                  </p>
                 </div>
-                <h3 className="mt-6 text-lg font-semibold tracking-tight">{s.title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                  {s.description}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
         </div>
       </Container>
     </section>
   );
 }
 
-/* ─── Stats ─────────────────────────────────────────────────────────────────── */
-
-function StatsSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
+function StatsSection({ t }: { t: THome }) {
   const stats = [
     { value: "150+", label: t("stats.projects") },
     { value: "80+", label: t("stats.clients") },
     { value: "5", label: t("stats.years") },
     { value: "98%", label: t("stats.satisfaction") },
   ];
-
   return (
     <section className="border-b border-border">
       <Container>
@@ -217,16 +229,13 @@ function StatsSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) 
   );
 }
 
-/* ─── Testimonials ──────────────────────────────────────────────────────────── */
-
-function TestimonialsSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
+function TestimonialsSection({ t }: { t: THome }) {
   return (
     <section className="border-b border-border py-32">
       <Container>
         <Reveal>
           <SectionHeader number="02" label={t("testimonials.title")} className="mb-16" />
         </Reveal>
-
         <div className="grid gap-px bg-border md:grid-cols-3">
           {testimonials.map((item, i) => (
             <Reveal key={item.name} delay={100 + i * 80} className="h-full">
@@ -250,9 +259,7 @@ function TestimonialsSection({ t }: { t: ReturnType<typeof useTranslations<"Home
   );
 }
 
-/* ─── CTA ───────────────────────────────────────────────────────────────────── */
-
-function CtaSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
+function CtaSection({ t }: { t: THome }) {
   return (
     <section className="border-b border-border py-32 md:py-40">
       <Container>
@@ -283,9 +290,7 @@ function CtaSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
   );
 }
 
-/* ─── Lab ───────────────────────────────────────────────────────────────────── */
-
-function LabSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
+function LabSection({ t }: { t: THome }) {
   return (
     <section className="py-32">
       <Container>
@@ -315,61 +320,26 @@ function LabSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
   );
 }
 
-/* ─── Data ──────────────────────────────────────────────────────────────────── */
-
-const services = [
-  {
-    icon: BarChart3,
-    title: "Strategie",
-    description: "Business plan, business model, etude de marche. Structurez votre vision.",
-  },
-  {
-    icon: Code2,
-    title: "Digital",
-    description: "Sites web, applications mobiles, SaaS. Du concept au deploiement.",
-  },
-  {
-    icon: Megaphone,
-    title: "Communication",
-    description: "Identite visuelle, charte graphique, community management.",
-  },
-  {
-    icon: Settings,
-    title: "Gestion",
-    description: "ERP/CRM sur mesure, chefferie de projet, consulting digital.",
-  },
-  {
-    icon: GraduationCap,
-    title: "Formation",
-    description: "Formations dev, outils digitaux, workshops pour ecoles et entreprises.",
-  },
-  {
-    icon: Wrench,
-    title: "Support",
-    description: "Maintenance, hebergement, support technique. On veille sur vos outils.",
-  },
-];
-
 const testimonials = [
   {
     name: "Marie Dupont",
-    role: "CEO",
     company: "TechStart",
+    role: "CEO",
     quote:
-      "FoxCase a transforme notre vision en un produit digital concret. Leur approche structuree et leur expertise technique ont fait toute la difference.",
+      "FoxCase a transformé notre vision en un produit digital concret. Leur approche structurée et leur expertise technique ont fait toute la différence.",
   },
   {
     name: "Thomas Bernard",
-    role: "Directeur Marketing",
     company: "GreenCorp",
+    role: "Directeur Marketing",
     quote:
-      "De la strategie a la realisation, l'equipe a su comprendre nos enjeux et livrer un site qui depasse nos attentes en termes de performance.",
+      "De la stratégie à la réalisation, l'équipe a su comprendre nos enjeux et livrer un site qui dépasse nos attentes.",
   },
   {
     name: "Sophie Laurent",
-    role: "Fondatrice",
     company: "Artisan Digital",
+    role: "Fondatrice",
     quote:
-      "Un accompagnement complet, de la creation de notre identite visuelle jusqu'au deploiement de notre e-commerce. Professionnalisme exemplaire.",
+      "Un accompagnement complet, de la création de notre identité visuelle jusqu'au déploiement de notre e-commerce.",
   },
 ];

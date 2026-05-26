@@ -5,6 +5,7 @@ import { getProductCategories, getProducts } from "@/lib/data/products";
 import { formatPrice } from "@/lib/utils";
 import { ArrowRight, Package } from "lucide-react";
 import type { Metadata } from "next";
+import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { AddToCartButton } from "./AddToCartButton";
 
@@ -20,15 +21,35 @@ export default async function ShopPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const sp = await searchParams;
-
   const category = sp.category;
   const [productsResult, categoriesResult] = await Promise.all([
     getProducts({ category, limit: 20 }),
     getProductCategories(),
   ]);
-
   const products = productsResult.docs;
   const categories = categoriesResult.docs;
+
+  return <ShopView products={products} categories={categories} category={category} />;
+}
+
+function ShopView({
+  products,
+  categories,
+  category,
+}: {
+  products: typeof import("@/lib/data/products").getProducts extends (
+    ...a: never[]
+  ) => Promise<{ docs: infer D }>
+    ? D
+    : never;
+  categories: typeof import("@/lib/data/products").getProductCategories extends (
+    ...a: never[]
+  ) => Promise<{ docs: infer D }>
+    ? D
+    : never;
+  category?: string;
+}) {
+  const t = useTranslations("Shop");
 
   return (
     <>
@@ -37,29 +58,26 @@ export default async function ShopPage({
         <section className="border-b border-border py-32">
           <Container>
             <Reveal>
-              <SectionHeader number="00" label="Boutique" className="mb-6" />
+              <SectionHeader number="00" label={t("title")} className="mb-6" />
             </Reveal>
             <Reveal delay={80}>
               <h1 className="max-w-3xl text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[0.95] tracking-[-0.03em]">
-                La boutique
+                {t("title")}
               </h1>
             </Reveal>
             <Reveal delay={160}>
-              <p className="mt-6 max-w-lg text-muted-foreground">
-                Tous vos supports commerciaux en un seul endroit.
-              </p>
+              <p className="mt-6 max-w-lg text-muted-foreground">{t("subtitle")}</p>
             </Reveal>
           </Container>
         </section>
 
-        {/* Filters */}
         <section className="border-b border-border">
           <Container className="flex items-center gap-4 overflow-x-auto py-4">
             <Link
               href="/shop"
               className={`shrink-0 font-mono text-[11px] uppercase tracking-[0.15em] transition-colors ${!category ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
             >
-              Tout
+              {t("all")}
             </Link>
             {categories.map((cat) => (
               <Link
@@ -73,20 +91,17 @@ export default async function ShopPage({
           </Container>
         </section>
 
-        {/* Grid */}
         <section className="border-b border-border py-16">
           <Container>
             {products.length === 0 ? (
               <div className="py-24 text-center">
                 <Package className="mx-auto h-12 w-12 text-muted-foreground/30" strokeWidth={1} />
-                <p className="mt-4 text-muted-foreground">
-                  Aucun produit pour le moment. Ajoutez des produits depuis l'admin.
-                </p>
+                <p className="mt-4 text-muted-foreground">{t("no_results")}</p>
                 <Link
                   href="/admin"
                   className="group mt-6 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-accent transition-colors hover:text-accent-hover"
                 >
-                  Admin CMS
+                  {t("admin_link")}{" "}
                   <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
@@ -122,7 +137,7 @@ export default async function ShopPage({
                           )}
                         </div>
                       </Link>
-                      <div className="mt-4 pt-4 border-t border-border">
+                      <div className="mt-4 border-t border-border pt-4">
                         <AddToCartButton
                           productId={String(product.id)}
                           name={typeof product.name === "string" ? product.name : product.slug}

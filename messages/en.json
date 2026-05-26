@@ -39,9 +39,55 @@
       "cta_services": "Our services",
       "cta_shop": "The shop"
     },
+    "manifesto": "Manifesto",
+    "location": "Cannes, France · CET",
+    "tagline": "Digital agency.",
+    "established": "EST. 2021",
+    "scroll": "scroll",
+    "see_all": "See all",
     "services": {
       "title": "Our expertise",
       "subtitle": "Solutions tailored to every need"
+    },
+    "service_items": {
+      "strategie": {
+        "title": "Strategy",
+        "description": "Business plan, business model, market research. Structure your vision."
+      },
+      "digital": {
+        "title": "Digital",
+        "description": "Websites, mobile apps, SaaS. From concept to deployment."
+      },
+      "communication": {
+        "title": "Communication",
+        "description": "Visual identity, brand guidelines, community management."
+      },
+      "gestion": {
+        "title": "Management",
+        "description": "Custom ERP/CRM, project management, digital consulting."
+      },
+      "formation": {
+        "title": "Training",
+        "description": "Dev training, digital tools, workshops for schools and businesses."
+      },
+      "support": {
+        "title": "Support",
+        "description": "Maintenance, hosting, technical support. We watch over your tools."
+      }
+    },
+    "marquee": {
+      "business_plan": "Business Plan",
+      "sites_web": "Websites",
+      "apps_mobiles": "Mobile Apps",
+      "saas": "SaaS",
+      "erp": "ERP",
+      "identite_visuelle": "Visual Identity",
+      "formation": "Training",
+      "ecommerce": "E-commerce",
+      "chefferie": "Project Management",
+      "kakemonos": "Banners",
+      "cartes_visite": "Business Cards",
+      "livres": "Books"
     },
     "products": {
       "title": "Commercial materials",
@@ -70,6 +116,8 @@
   "Services": {
     "title": "Our services",
     "subtitle": "Custom services for professionals and individuals",
+    "prestations": "Services",
+    "services_count": "{count} services",
     "from": "From",
     "on_quote": "On quote",
     "per_month": "/month",
@@ -77,28 +125,36 @@
     "per_hour": "/hour",
     "learn_more": "Learn more",
     "get_quote": "Request a quote",
-    "process": "Our process",
+    "process": "Process",
     "deliverables": "Deliverables",
     "timeline": "Estimated timeline",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "pricing": "Pricing",
+    "choose": "Choose",
+    "interested": "Interested in this service?"
   },
   "Shop": {
     "title": "Shop",
     "subtitle": "All your commercial materials in one place",
+    "all": "All",
+    "category": "Category",
     "filters": "Filters",
     "sort": "Sort by",
     "sort_price_asc": "Price: Low to High",
     "sort_price_desc": "Price: High to Low",
     "sort_newest": "Newest",
     "sort_popular": "Popular",
-    "no_results": "No products found",
+    "no_results": "No products yet. Add products from the admin.",
+    "admin_link": "Admin CMS",
     "add_to_cart": "Add to cart",
     "in_stock": "In stock",
     "on_order": "Made to order",
     "remaining": "{count} remaining",
     "reviews": "Reviews",
     "similar": "Similar products",
-    "specifications": "Specifications"
+    "specifications": "Specifications",
+    "description": "Description",
+    "ref": "Ref"
   },
   "Cart": {
     "title": "Your cart",
@@ -134,7 +190,14 @@
     "success_message": "Thank you for your order. A confirmation email has been sent.",
     "order_number": "Order #",
     "view_orders": "View my orders",
-    "continue": "Continue shopping"
+    "continue": "Continue shopping",
+    "empty_cart": "Your cart is empty.",
+    "summary": "Summary",
+    "previous": "Previous",
+    "next": "Next",
+    "stripe_placeholder": "Stripe Elements will be integrated once API keys are configured. Payment is secured (PCI DSS Level 1).",
+    "payment_methods": "Card / Apple Pay / Google Pay",
+    "confirmation": "Confirmation"
   },
   "Account": {
     "title": "My Account",
@@ -146,7 +209,36 @@
     "login_title": "Sign in",
     "register_title": "Sign up",
     "forgot_password": "Forgot password?",
-    "reset_password": "Reset password"
+    "reset_password": "Reset password",
+    "greeting": "Hello {name}",
+    "no_orders": "No orders yet.",
+    "profile": "Profile",
+    "password": "Password",
+    "old_password": "Current password",
+    "new_password": "New password",
+    "save": "Save",
+    "change": "Change",
+    "auth_panel": {
+      "login_title": "Your space",
+      "login_subtitle": "Track your orders, manage your addresses and access all your services.",
+      "register_title": "Join us",
+      "register_subtitle": "Create your account to order, track deliveries and manage your projects.",
+      "forgot_title": "Forgot password",
+      "forgot_subtitle": "Enter your email and we'll send you a reset link."
+    },
+    "no_account": "Don't have an account?",
+    "has_account": "Already have an account?",
+    "reset_sent": "If an account exists with this address, a reset email has been sent. Check your inbox.",
+    "send_link": "Send reset link",
+    "back_to_login": "Back to sign in",
+    "search_company": "Search your company",
+    "search_company_placeholder": "Name, SIREN or SIRET...",
+    "company_exists": "The company {name} (SIRET {siret}) is already registered.",
+    "select_company": "Please select your company via the search.",
+    "individual": "Individual",
+    "professional": "Professional",
+    "invalid_credentials": "Incorrect email or password.",
+    "generic_error": "An error occurred."
   },
   "Quote": {
     "title": "Request a Quote",
@@ -163,7 +255,10 @@
     "timeline": "Desired timeline",
     "submit": "Send my request",
     "success_title": "Request sent!",
-    "success_message": "We've received your request and will respond within 48h."
+    "success_message": "We've received your request and will respond within 48h.",
+    "previous": "Previous",
+    "next": "Next",
+    "describe_placeholder": "Describe your project, your needs, your goals..."
   },
   "Contact": {
     "title": "Contact",
@@ -173,11 +268,56 @@
     "phone": "Phone",
     "subject": "Subject",
     "message": "Message",
+    "section_message": "Message",
+    "section_info": "Details",
     "type": "You are",
     "individual": "Individual",
     "professional": "Professional",
     "submit": "Send",
-    "success": "Message sent successfully!"
+    "success": "Message sent successfully!",
+    "location": "Address",
+    "by_appointment": "By appointment"
+  },
+  "About": {
+    "title": "About",
+    "heading": "We build tomorrow's digital tools.",
+    "mission_title": "Mission",
+    "mission_text": "FoxCase is a digital agency that supports professionals and individuals in the design, development and deployment of their digital projects. From strategy to production, we cover the entire digital value chain.",
+    "approach_title": "Approach",
+    "approach_text": "Every project is unique. We favour a custom, transparent and iterative approach. No generic templates, no off-the-shelf solutions. Clean code, solid architectures and design that serves the product.",
+    "values_title": "Values",
+    "values": {
+      "transparency": {
+        "title": "Transparency",
+        "description": "Clear communication, no unnecessary jargon, visible deliverables at every step."
+      },
+      "quality": {
+        "title": "Quality",
+        "description": "Clean code, solid architectures, automated testing. We don't cut corners."
+      },
+      "custom": {
+        "title": "Custom",
+        "description": "Every project is unique. No templates, no off-the-shelf solutions."
+      },
+      "commitment": {
+        "title": "Commitment",
+        "description": "We invest in every project as if it were our own. Post-delivery support included."
+      }
+    },
+    "innovation_title": "Innovation",
+    "foxstudio_title": "FoxStudio",
+    "foxstudio_text": "Our R&D lab explores cutting-edge technologies: AI, real-time 3D, edge computing. Today's innovations become tomorrow's solutions.",
+    "discover": "Discover"
+  },
+  "Lab": {
+    "section_label": "R&D Lab",
+    "title": "FoxStudio",
+    "mission_title": "Mission",
+    "mission_text": "FoxStudio is FoxCase's R&D laboratory. This is where tomorrow's innovations are born: artificial intelligence, real-time 3D, edge computing, immersive interfaces. What is explored in the Lab ends up enriching the solutions we offer our clients.",
+    "filiation_title": "Relationship",
+    "filiation_text": "FoxCase delivers. FoxStudio explores. The two entities feed each other: the agency's field constraints guide the Lab's research, and the Lab's discoveries push the boundaries of what the agency can offer.",
+    "see_projects": "See Lab projects",
+    "see_projects_subtitle": "Explore experiments, prototypes and ongoing innovations."
   },
   "Blog": {
     "title": "Blog",
@@ -201,6 +341,17 @@
     "no_results": "No results",
     "see_all": "See all",
     "price": "€{amount}",
-    "free": "Free"
+    "free": "Free",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "phone": "Phone",
+    "company": "Company",
+    "address": "Address",
+    "city": "City",
+    "postal_code": "Postal code",
+    "country": "Country",
+    "total": "Total"
   }
 }

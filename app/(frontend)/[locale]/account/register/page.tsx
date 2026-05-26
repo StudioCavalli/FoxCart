@@ -20,11 +20,11 @@ interface CompanyResult {
 
 export default function RegisterPage() {
   const t = useTranslations("Account");
+  const tCommon = useTranslations("Common");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [type, setType] = useState<"individual" | "professional">("individual");
-
   const [companyQuery, setCompanyQuery] = useState("");
   const [companyResults, setCompanyResults] = useState<CompanyResult[]>([]);
   const [selectedCompany, setSelectedCompany] = useState<CompanyResult | null>(null);
@@ -63,7 +63,7 @@ export default function RegisterPage() {
     });
     const dupData = await dupRes.json();
     if (dupData.exists) {
-      setError(`L'entreprise ${company.name} (SIRET ${company.siret}) est deja enregistree.`);
+      setError(t("company_exists", { name: company.name, siret: company.siret }));
       return;
     }
     setSelectedCompany(company);
@@ -77,13 +77,11 @@ export default function RegisterPage() {
     setLoading(true);
     setError("");
     const form = new FormData(e.currentTarget);
-
     if (type === "professional" && !selectedCompany) {
-      setError("Veuillez selectionner votre entreprise via la recherche.");
+      setError(t("select_company"));
       setLoading(false);
       return;
     }
-
     try {
       const res = await fetch("/api/customers/register", {
         method: "POST",
@@ -102,10 +100,10 @@ export default function RegisterPage() {
         router.refresh();
       } else {
         const data = await res.json();
-        setError(data.error ?? "Une erreur est survenue.");
+        setError(data.error ?? t("generic_error"));
       }
     } catch {
-      setError("Une erreur est survenue.");
+      setError(t("generic_error"));
     } finally {
       setLoading(false);
     }
@@ -114,10 +112,9 @@ export default function RegisterPage() {
   return (
     <div className="relative flex h-screen overflow-hidden">
       <AuthPanel
-        title="Rejoignez-nous"
-        subtitle="Creez votre compte pour commander, suivre vos livraisons et gerer vos projets."
+        title={t("auth_panel.register_title")}
+        subtitle={t("auth_panel.register_subtitle")}
       />
-
       <div className="flex flex-1 flex-col justify-center overflow-y-auto px-8 py-16 sm:px-16 lg:px-24">
         <div className="mx-auto w-full max-w-sm">
           <Link
@@ -126,17 +123,15 @@ export default function RegisterPage() {
           >
             FoxCase
           </Link>
-
           <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
             00 — {t("register_title")}
           </div>
           <h1 className="mt-3 text-2xl font-bold tracking-tight">{t("register_title")}</h1>
 
           <form onSubmit={handleSubmit} className="mt-10 space-y-5">
-            {/* Type toggle */}
             <div>
               <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-                Profil
+                {t("profile")}
               </div>
               <div className="grid grid-cols-2 gap-px bg-border">
                 {(["individual", "professional"] as const).map((v) => (
@@ -152,17 +147,16 @@ export default function RegisterPage() {
                     className={`flex items-center justify-center gap-2 py-3 font-mono text-[11px] uppercase tracking-[0.1em] transition-colors ${type === v ? "bg-surface text-foreground" : "bg-background text-muted-foreground hover:bg-surface/50"}`}
                   >
                     {v === "professional" && <Building2 className="h-3.5 w-3.5" />}
-                    {v === "individual" ? "Particulier" : "Professionnel"}
+                    {t(v)}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Company search (pro only) */}
             {type === "professional" && (
               <div>
                 <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-                  Rechercher votre entreprise
+                  {t("search_company")}
                 </div>
                 <div className="relative">
                   <Input
@@ -171,7 +165,7 @@ export default function RegisterPage() {
                       setCompanyQuery(e.target.value);
                       setSelectedCompany(null);
                     }}
-                    placeholder="Nom, SIREN ou SIRET..."
+                    placeholder={t("search_company_placeholder")}
                     className="h-12 rounded-none border-border bg-transparent pr-10"
                   />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -182,7 +176,6 @@ export default function RegisterPage() {
                     )}
                   </div>
                 </div>
-
                 {companyResults.length > 0 && !selectedCompany && (
                   <div className="mt-1 border border-border bg-background">
                     {companyResults.map((c) => (
@@ -200,7 +193,6 @@ export default function RegisterPage() {
                     ))}
                   </div>
                 )}
-
                 {selectedCompany && (
                   <div className="mt-2 border border-accent/30 bg-accent/5 p-3">
                     <div className="text-sm font-medium">{selectedCompany.name}</div>
@@ -221,7 +213,7 @@ export default function RegisterPage() {
                   htmlFor="firstName"
                   className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
                 >
-                  Prenom
+                  {tCommon("first_name")}
                 </label>
                 <Input
                   id="firstName"
@@ -235,7 +227,7 @@ export default function RegisterPage() {
                   htmlFor="lastName"
                   className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
                 >
-                  Nom
+                  {tCommon("last_name")}
                 </label>
                 <Input
                   id="lastName"
@@ -250,7 +242,7 @@ export default function RegisterPage() {
                 htmlFor="email"
                 className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
               >
-                Email
+                {tCommon("email")}
               </label>
               <Input
                 id="email"
@@ -265,7 +257,7 @@ export default function RegisterPage() {
                 htmlFor="password"
                 className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
               >
-                Mot de passe
+                {tCommon("password")}
               </label>
               <Input
                 id="password"
@@ -276,9 +268,7 @@ export default function RegisterPage() {
                 className="h-12 rounded-none border-border bg-transparent"
               />
             </div>
-
             {error && <p className="text-sm text-destructive">{error}</p>}
-
             <button
               type="submit"
               disabled={loading}
@@ -297,7 +287,7 @@ export default function RegisterPage() {
               href="/account/login"
               className="group flex items-center justify-between py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              <span>Deja un compte ?</span>
+              <span>{t("has_account")}</span>
               <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent">
                 {t("login_title")}
               </span>
