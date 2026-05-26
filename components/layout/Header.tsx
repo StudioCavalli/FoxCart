@@ -2,6 +2,7 @@
 
 import { CartDrawer } from "@/components/shop/CartDrawer";
 import { SearchCommand } from "@/components/shop/SearchCommand";
+import { FoxLogo } from "@/components/visual/FoxLogo";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { User } from "lucide-react";
@@ -43,7 +44,7 @@ function Header() {
           href="/"
           className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.3em] text-foreground"
         >
-          <img src="/fox.svg" alt="" className="h-5 w-auto invert" />
+          <FoxLogo className="h-5 w-5" />
           FoxCase
         </Link>
 
