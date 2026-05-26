@@ -1,13 +1,15 @@
 import { GlassCard } from "@/components/glass";
 import { Container, Footer, Header } from "@/components/layout";
-import { Pattern, Reveal, SectionHeader } from "@/components/visual";
+import { Marquee, Pattern, Reveal, SectionHeader } from "@/components/visual";
 import { Link } from "@/i18n/navigation";
+import { SITE } from "@/lib/site";
 import {
   ArrowRight,
   BarChart3,
   Code2,
   GraduationCap,
   Megaphone,
+  Quote,
   Settings,
   Wrench,
 } from "lucide-react";
@@ -26,15 +28,15 @@ function HomeView() {
   return (
     <>
       <Header />
-
       <main>
         <HeroSection t={t} />
+        <MarqueeBand />
         <ServicesSection t={t} />
         <StatsSection t={t} />
+        <TestimonialsSection t={t} />
         <CtaSection t={t} />
         <LabSection t={t} />
       </main>
-
       <Footer />
     </>
   );
@@ -44,48 +46,93 @@ function HomeView() {
 
 function HeroSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
   return (
-    <section className="relative min-h-[85vh] flex items-end overflow-hidden pb-32 pt-48">
+    <section className="relative flex min-h-[calc(100vh-56px)] flex-col overflow-hidden border-b border-border">
       <Pattern />
-      <Container className="relative">
-        <Reveal>
-          <SectionHeader number="01" label="Agence digitale" className="mb-10" />
-        </Reveal>
 
-        <Reveal delay={80}>
-          <h1 className="max-w-5xl text-[clamp(2.5rem,7vw,6rem)] font-bold leading-[0.95] tracking-[-0.03em]">
-            {t("hero.title")}
+      {/* Top metadata strip */}
+      <div className="flex items-center justify-between border-b border-border px-[var(--grid-margin)] py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+        <span>00 — Manifeste</span>
+        <span className="hidden tabular-nums md:inline">Paris, France · CET</span>
+        <span className="tabular-nums">v0.1.0</span>
+      </div>
+
+      {/* Main content */}
+      <div className="flex flex-1 flex-col justify-between px-[var(--grid-margin)] py-16 md:py-24">
+        <div>
+          <h1 className="max-w-5xl font-bold leading-[0.92] tracking-[-0.03em] text-[clamp(3rem,10vw,10rem)]">
+            FoxCase<span className="text-accent">.</span>
+            <br />
+            <span className="text-muted-foreground">Agence digitale.</span>
           </h1>
-        </Reveal>
-
-        <Reveal delay={160}>
-          <p className="mt-8 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
-            {t("hero.subtitle")}
-          </p>
-        </Reveal>
-
-        <Reveal delay={240}>
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
-            <Link
-              href="/services"
-              className="group inline-flex items-center gap-2 rounded-none bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-colors hover:bg-accent"
-            >
-              {t("hero.cta_services")}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="/shop"
-              className="inline-flex items-center gap-2 border border-border px-6 py-3.5 text-sm font-medium transition-colors hover:border-foreground"
-            >
-              {t("hero.cta_shop")}
-            </Link>
-          </div>
-        </Reveal>
-
-        <div className="absolute right-0 bottom-0 hidden font-mono text-[12rem] font-bold leading-none text-foreground/[0.02] select-none lg:block">
-          FC
         </div>
-      </Container>
+
+        <div className="mt-16 grid gap-8 md:mt-0 md:grid-cols-2 md:items-end">
+          <div className="space-y-3 text-[clamp(1rem,2vw,1.25rem)] leading-snug md:max-w-[30ch]">
+            <Reveal>
+              <p>{t("hero.subtitle")}</p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={150}>
+            <div className="flex flex-col gap-4 sm:flex-row md:justify-end">
+              <Link
+                href="/services"
+                className="group inline-flex items-center gap-2 bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-colors hover:bg-accent"
+              >
+                {t("hero.cta_services")}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                href="/shop"
+                className="inline-flex items-center gap-2 border border-border px-6 py-3.5 text-sm font-medium transition-colors hover:border-foreground"
+              >
+                {t("hero.cta_shop")}
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+
+      {/* Bottom metadata strip */}
+      <div className="flex items-center justify-between border-t border-border px-[var(--grid-margin)] py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+        <span aria-hidden="true">--- scroll</span>
+        <span className="hidden md:inline">{SITE.name} · Agence digitale</span>
+        <span className="tabular-nums">EST. 2021</span>
+      </div>
     </section>
+  );
+}
+
+/* ─── Marquee ───────────────────────────────────────────────────────────────── */
+
+function MarqueeBand() {
+  return (
+    <div className="border-b border-border py-4 overflow-hidden">
+      <Marquee
+        speed={40}
+        className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground"
+      >
+        {[
+          "Business Plan",
+          "Sites Web",
+          "Applications Mobiles",
+          "SaaS",
+          "ERP",
+          "Identite Visuelle",
+          "Formation",
+          "E-commerce",
+          "Chefferie de Projet",
+          "Kakemonos",
+          "Cartes de Visite",
+          "Livres",
+        ].map((item) => (
+          <span key={item} className="mx-6 inline-flex items-center gap-3">
+            <span className="h-1 w-1 rounded-full bg-accent" />
+            {item}
+          </span>
+        ))}
+      </Marquee>
+    </div>
   );
 }
 
@@ -93,12 +140,12 @@ function HeroSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
 
 function ServicesSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
   return (
-    <section className="border-t border-border py-32">
+    <section className="border-b border-border py-32">
       <Container>
         <div className="mb-16 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <Reveal>
-              <SectionHeader number="02" label={t("services.title")} className="mb-4" />
+              <SectionHeader number="01" label={t("services.title")} className="mb-4" />
             </Reveal>
             <Reveal delay={80}>
               <h2 className="max-w-md text-3xl font-bold tracking-tight md:text-4xl">
@@ -149,7 +196,7 @@ function StatsSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) 
   ];
 
   return (
-    <section className="border-t border-border">
+    <section className="border-b border-border">
       <Container>
         <div className="grid grid-cols-2 divide-x divide-border md:grid-cols-4">
           {stats.map((stat, i) => (
@@ -170,11 +217,44 @@ function StatsSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) 
   );
 }
 
+/* ─── Testimonials ──────────────────────────────────────────────────────────── */
+
+function TestimonialsSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
+  return (
+    <section className="border-b border-border py-32">
+      <Container>
+        <Reveal>
+          <SectionHeader number="02" label={t("testimonials.title")} className="mb-16" />
+        </Reveal>
+
+        <div className="grid gap-px bg-border md:grid-cols-3">
+          {testimonials.map((item, i) => (
+            <Reveal key={item.name} delay={100 + i * 80} className="h-full">
+              <div className="flex h-full flex-col bg-background p-8">
+                <Quote className="h-5 w-5 text-accent/30" strokeWidth={1.5} />
+                <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  {item.quote}
+                </blockquote>
+                <div className="mt-6 border-t border-border pt-4">
+                  <div className="text-sm font-medium">{item.name}</div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+                    {item.role} — {item.company}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
 /* ─── CTA ───────────────────────────────────────────────────────────────────── */
 
 function CtaSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
   return (
-    <section className="border-t border-border py-32 md:py-40">
+    <section className="border-b border-border py-32 md:py-40">
       <Container>
         <div className="flex flex-col items-center text-center">
           <Reveal>
@@ -191,7 +271,7 @@ function CtaSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
           <Reveal delay={240}>
             <Link
               href="/quote"
-              className="group mt-10 inline-flex items-center gap-2 rounded-none bg-accent px-8 py-4 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-hover"
+              className="group mt-10 inline-flex items-center gap-2 bg-accent px-8 py-4 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-hover"
             >
               {t("cta.button")}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -207,7 +287,7 @@ function CtaSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
 
 function LabSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
   return (
-    <section className="border-t border-border py-32">
+    <section className="py-32">
       <Container>
         <Reveal>
           <GlassCard variant="subtle" className="relative overflow-hidden p-10 md:p-16">
@@ -267,5 +347,29 @@ const services = [
     icon: Wrench,
     title: "Support",
     description: "Maintenance, hebergement, support technique. On veille sur vos outils.",
+  },
+];
+
+const testimonials = [
+  {
+    name: "Marie Dupont",
+    role: "CEO",
+    company: "TechStart",
+    quote:
+      "FoxCase a transforme notre vision en un produit digital concret. Leur approche structuree et leur expertise technique ont fait toute la difference.",
+  },
+  {
+    name: "Thomas Bernard",
+    role: "Directeur Marketing",
+    company: "GreenCorp",
+    quote:
+      "De la strategie a la realisation, l'equipe a su comprendre nos enjeux et livrer un site qui depasse nos attentes en termes de performance.",
+  },
+  {
+    name: "Sophie Laurent",
+    role: "Fondatrice",
+    company: "Artisan Digital",
+    quote:
+      "Un accompagnement complet, de la creation de notre identite visuelle jusqu'au deploiement de notre e-commerce. Professionnalisme exemplaire.",
   },
 ];
