@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { getPayload } from "payload";
 
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Blog" };
 
 interface BlogPost {

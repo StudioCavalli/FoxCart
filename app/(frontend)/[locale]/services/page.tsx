@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Services" };
 
 export default async function ServicesPage({ params }: { params: Promise<{ locale: string }> }) {

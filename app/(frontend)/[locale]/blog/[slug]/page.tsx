@@ -7,6 +7,7 @@ import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
 
+export const dynamic = "force-dynamic";
 export default async function BlogPostPage({
   params,
 }: {
