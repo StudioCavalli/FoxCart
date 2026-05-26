@@ -29,15 +29,18 @@ function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b transition-[background,border-color] duration-[var(--duration-fast)]",
+        "sticky top-0 z-50 transition-all duration-[var(--duration-fast)]",
         scrolled
-          ? "border-border bg-glass-bg backdrop-blur-xl"
-          : "border-transparent bg-transparent",
+          ? "border-b border-border bg-background/80 backdrop-blur-xl"
+          : "border-b border-transparent",
       )}
     >
-      <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="font-mono text-sm font-bold tracking-wider text-accent">
-          FOXCASE
+      <Container className="flex h-14 items-center justify-between">
+        <Link
+          href="/"
+          className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-foreground"
+        >
+          FoxCase
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -46,9 +49,9 @@ function Header() {
               key={item.key}
               href={item.href}
               className={cn(
-                "text-sm transition-colors",
+                "font-mono text-[11px] uppercase tracking-[0.15em] transition-colors",
                 pathname.startsWith(item.href)
-                  ? "text-foreground font-medium"
+                  ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground",
               )}
             >
@@ -57,14 +60,13 @@ function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <Link
             href="/quote"
-            className="hidden rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent-hover sm:inline-flex"
+            className="hidden border border-foreground px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.15em] transition-colors hover:bg-foreground hover:text-background sm:inline-flex"
           >
             {t("quote")}
           </Link>
-
           <MobileNav />
         </div>
       </Container>
