@@ -1,7 +1,7 @@
 "use client";
 
-import { Pattern } from "@/components/visual";
 import { Input } from "@/components/ui/input";
+import { Pattern } from "@/components/visual";
 import { Link } from "@/i18n/navigation";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -45,7 +45,10 @@ export default function LoginPage() {
       <div className="relative hidden w-1/2 items-end overflow-hidden border-r border-border lg:flex">
         <Pattern />
         <div className="relative px-16 pb-16">
-          <Link href="/" className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-foreground">
+          <Link
+            href="/"
+            className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-foreground"
+          >
             FoxCase
           </Link>
           <h2 className="mt-6 max-w-md text-[clamp(2rem,4vw,3.5rem)] font-bold leading-[0.95] tracking-[-0.03em]">
@@ -63,7 +66,10 @@ export default function LoginPage() {
       {/* Right — form */}
       <div className="flex flex-1 flex-col justify-center px-8 sm:px-16 lg:px-24">
         <div className="mx-auto w-full max-w-sm">
-          <Link href="/" className="mb-12 block font-mono text-xs font-bold uppercase tracking-[0.3em] text-foreground lg:hidden">
+          <Link
+            href="/"
+            className="mb-12 block font-mono text-xs font-bold uppercase tracking-[0.3em] text-foreground lg:hidden"
+          >
             FoxCase
           </Link>
 
@@ -74,16 +80,34 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="mt-10 space-y-5">
             <div>
-              <label htmlFor="email" className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <label
+                htmlFor="email"
+                className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
+              >
                 Email
               </label>
-              <Input id="email" name="email" type="email" required className="h-12 rounded-none border-border bg-transparent" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className="h-12 rounded-none border-border bg-transparent"
+              />
             </div>
             <div>
-              <label htmlFor="password" className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <label
+                htmlFor="password"
+                className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground"
+              >
                 Mot de passe
               </label>
-              <Input id="password" name="password" type="password" required className="h-12 rounded-none border-border bg-transparent" />
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                required
+                className="h-12 rounded-none border-border bg-transparent"
+              />
             </div>
 
             {error && <p className="text-sm text-destructive">{error}</p>}
@@ -95,7 +119,9 @@ export default function LoginPage() {
             >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
               {t("login_title")}
-              {!loading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />}
+              {!loading && (
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              )}
             </button>
           </form>
 
@@ -110,7 +136,7 @@ export default function LoginPage() {
               </span>
             </Link>
             <Link
-              href="/account/login"
+              href="/account/forgot-password"
               className="block py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground/60 transition-colors hover:text-muted-foreground"
             >
               {t("forgot_password")}
