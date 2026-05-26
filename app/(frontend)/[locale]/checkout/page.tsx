@@ -1,6 +1,7 @@
 "use client";
 
 import { Container, Header } from "@/components/layout";
+import { AddressInput } from "@/components/shop/AddressInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
@@ -9,7 +10,7 @@ import { formatPrice } from "@/lib/utils";
 import { ArrowRight, CreditCard, Loader2, MapPin, Truck, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const STEPS = [
   { key: "auth", icon: User },
@@ -71,8 +72,42 @@ export default function CheckoutPage() {
       });
   }, []);
 
-  const shippingCost = 990;
+  const [shippingCost, setShippingCost] = useState(0);
+  const [shippingRates, setShippingRates] = useState<
+    { name: string; delay: string; price: number }[]
+  >([]);
   const total = subtotal() + shippingCost;
+
+  const fetchShippingRates = useCallback(async () => {
+    if (!address.postalCode || !address.city) return;
+    try {
+      const res = await fetch("/api/packlink/shipping", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          postalCode: address.postalCode,
+          city: address.city,
+          country: address.country,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const rates = (data.rates ?? []).map(
+          (r: { carrier: string; transitDays: string; price: number }) => ({
+            name: r.carrier,
+            delay: r.transitDays,
+            price: r.price,
+          }),
+        );
+        setShippingRates(rates);
+        if (rates.length > 0 && shippingCost === 0) {
+          setShippingCost(rates[0].price);
+        }
+      }
+    } catch {
+      /* fallback rates already in Packlink lib */
+    }
+  }, [address.postalCode, address.city, address.country, shippingCost]);
 
   const saveAddressAfterOrder = async () => {
     if (!address.address1 || !address.city) return;
@@ -199,10 +234,19 @@ export default function CheckoutPage() {
                         <label className="mb-2 block font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
                           {tCommon("address")}
                         </label>
-                        <Input
+                        <AddressInput
                           value={address.address1}
-                          onChange={(e) => setAddress({ ...address, address1: e.target.value })}
-                          required
+                          onChange={(v) => setAddress({ ...address, address1: v })}
+                          onSelect={(a) =>
+                            setAddress({
+                              ...address,
+                              address1: a.address1,
+                              postalCode: a.postalCode,
+                              city: a.city,
+                              country: a.country,
+                            })
+                          }
+                          placeholder={tCommon("address")}
                           className="rounded-none border-border"
                         />
                       </div>
@@ -236,12 +280,22 @@ export default function CheckoutPage() {
                 {step === 2 && (
                   <div>
                     <h2 className="mb-6 text-lg font-semibold">{t("choose_shipping")}</h2>
+                    {shippingRates.length === 0 && (
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {address.postalCode
+                          ? "Chargement des tarifs..."
+                          : "Renseignez votre adresse pour voir les tarifs."}
+                      </p>
+                    )}
                     <div className="space-y-2">
-                      {[
-                        { name: "Colissimo", delay: "2-3 j", price: 990 },
-                        { name: "Mondial Relay", delay: "3-5 j", price: 590 },
-                        { name: "DHL Express", delay: "1-2 j", price: 1490 },
-                      ].map((c) => (
+                      {(shippingRates.length > 0
+                        ? shippingRates
+                        : [
+                            { name: "Colissimo", delay: "2-3 j", price: 990 },
+                            { name: "Mondial Relay", delay: "3-5 j", price: 590 },
+                            { name: "DHL Express", delay: "1-2 j", price: 1490 },
+                          ]
+                      ).map((c, i) => (
                         <label
                           key={c.name}
                           className="flex cursor-pointer items-center justify-between border border-border p-4 transition-colors hover:bg-surface"
@@ -250,7 +304,8 @@ export default function CheckoutPage() {
                             <input
                               type="radio"
                               name="shipping"
-                              defaultChecked={c.name === "Colissimo"}
+                              defaultChecked={i === 0}
+                              onChange={() => setShippingCost(c.price)}
                               className="accent-accent"
                             />
                             <div>
@@ -290,7 +345,11 @@ export default function CheckoutPage() {
                   </Button>
                   {step < STEPS.length - 1 ? (
                     <Button
-                      onClick={() => setStep((s) => s + 1)}
+                      onClick={() => {
+                        const next = step + 1;
+                        if (next === 2) fetchShippingRates();
+                        setStep(next);
+                      }}
                       className="group gap-2 rounded-none bg-accent text-accent-foreground hover:bg-accent-hover font-mono text-[11px] uppercase tracking-[0.15em]"
                     >
                       {t("next")}{" "}
