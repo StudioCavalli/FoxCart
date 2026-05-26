@@ -1,7 +1,17 @@
 import config from "@/payload.config";
-import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { getPayload } from "payload";
+
+function decodeJwtPayload(token: string): { id: string | number; collection: string } | null {
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const payload = JSON.parse(Buffer.from(parts[1]!, "base64url").toString());
+    return payload;
+  } catch {
+    return null;
+  }
+}
 
 export async function GET() {
   try {
@@ -11,13 +21,8 @@ export async function GET() {
       return Response.json({ user: null }, { status: 401 });
     }
 
-    const secret = process.env.PAYLOAD_SECRET;
-    if (!secret) {
-      return Response.json({ user: null }, { status: 500 });
-    }
-
-    const decoded = jwt.verify(token, secret) as { id: string | number; collection: string };
-    if (decoded.collection !== "customers") {
+    const decoded = decodeJwtPayload(token);
+    if (!decoded || decoded.collection !== "customers") {
       return Response.json({ user: null }, { status: 401 });
     }
 
