@@ -1,6 +1,7 @@
 "use client";
 
 import { AccountShell } from "@/components/layout/AccountShell";
+import { AddressInput } from "@/components/shop/AddressInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
@@ -30,6 +31,9 @@ export default function AddressesPage() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [adding, setAdding] = useState(false);
   const [newType, setNewType] = useState<"shipping" | "billing">("shipping");
+  const [addrStreet, setAddrStreet] = useState("");
+  const [addrPostal, setAddrPostal] = useState("");
+  const [addrCity, setAddrCity] = useState("");
 
   const load = useCallback(() => {
     fetch("/api/customers/addresses")
@@ -64,6 +68,9 @@ export default function AddressesPage() {
       body: JSON.stringify(addr),
     });
     setAdding(false);
+    setAddrStreet("");
+    setAddrPostal("");
+    setAddrCity("");
     load();
   };
 
@@ -176,12 +183,18 @@ export default function AddressesPage() {
               placeholder={tCommon("company")}
               className="rounded-none border-border"
             />
-            <Input
-              name="address1"
+            <AddressInput
+              value={addrStreet}
+              onChange={setAddrStreet}
+              onSelect={(a) => {
+                setAddrStreet(a.address1);
+                setAddrPostal(a.postalCode);
+                setAddrCity(a.city);
+              }}
               placeholder={tCommon("address")}
-              required
               className="rounded-none border-border"
             />
+            <input type="hidden" name="address1" value={addrStreet} />
             <Input
               name="address2"
               placeholder="Complément"
@@ -190,12 +203,16 @@ export default function AddressesPage() {
             <div className="grid gap-4 sm:grid-cols-3">
               <Input
                 name="postalCode"
+                value={addrPostal}
+                onChange={(e) => setAddrPostal(e.target.value)}
                 placeholder={tCommon("postal_code")}
                 required
                 className="rounded-none border-border"
               />
               <Input
                 name="city"
+                value={addrCity}
+                onChange={(e) => setAddrCity(e.target.value)}
                 placeholder={tCommon("city")}
                 required
                 className="rounded-none border-border sm:col-span-2"
