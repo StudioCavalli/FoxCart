@@ -35,8 +35,32 @@ export default function CreateProductPage() {
   const [supplierUrl, setSupplierUrl] = useState("");
   const [featured, setFeatured] = useState(false);
   const [isSubscription, setIsSubscription] = useState(false);
+  const [importUrl, setImportUrl] = useState("");
+  const [importing, setImporting] = useState(false);
 
   const basePrice = Math.round(costPrice * (1 + marginPercent / 100));
+
+  const handleImportAlibaba = async () => {
+    if (!importUrl.includes("alibaba.com")) return;
+    setImporting(true);
+    try {
+      const res = await fetch("/api/admin/alibaba-scrape", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: importUrl }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.name) setName(data.name);
+        if (data.name) setSlug(slugify(data.name));
+        if (data.description) setDescription(data.description);
+        if (data.costPrice) setCostPrice(data.costPrice);
+        setSupplierUrl(importUrl);
+        setFulfillmentType("alibaba");
+      }
+    } catch {}
+    finally { setImporting(false); }
+  };
 
   useEffect(() => {
     fetch("/api/admin/products")
@@ -128,6 +152,32 @@ export default function CreateProductPage() {
       ) : (
         <form onSubmit={handleSubmit} className="p-8 md:p-16">
           <div className="max-w-2xl space-y-8">
+            {/* Import from Alibaba */}
+            <div className="border border-accent/20 bg-accent/5 p-6">
+              <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
+                Import Alibaba
+              </div>
+              <p className="mb-4 text-sm text-muted-foreground">
+                Collez un lien Alibaba pour pré-remplir automatiquement les champs.
+              </p>
+              <div className="flex gap-2">
+                <Input
+                  value={importUrl}
+                  onChange={(e) => setImportUrl(e.target.value)}
+                  placeholder="https://www.alibaba.com/product-detail/..."
+                  className="flex-1 rounded-none border-border"
+                />
+                <button
+                  type="button"
+                  onClick={handleImportAlibaba}
+                  disabled={importing || !importUrl.includes("alibaba.com")}
+                  className="shrink-0 bg-accent px-5 py-2 font-mono text-[11px] uppercase tracking-[0.15em] text-accent-foreground transition-colors hover:bg-accent-hover disabled:opacity-50"
+                >
+                  {importing ? <Loader2 className="h-4 w-4 animate-spin" /> : "Importer"}
+                </button>
+              </div>
+            </div>
+
             {/* Basic info */}
             <div>
               <SectionHeader number="01" label="Informations" className="mb-6" />
