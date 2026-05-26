@@ -38,8 +38,9 @@ export default function AddressesPage() {
 
   const load = useCallback(() => {
     fetch("/api/customers/addresses")
-      .then((r) => r.json())
-      .then((d) => setAddresses(d.addresses ?? []));
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setAddresses(d?.addresses ?? []))
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
