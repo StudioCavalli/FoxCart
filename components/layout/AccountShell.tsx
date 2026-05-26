@@ -2,7 +2,16 @@
 
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { ArrowRight, LayoutDashboard, LogOut, MapPin, Package, Settings, User } from "lucide-react";
+import {
+  ArrowRight,
+  LayoutDashboard,
+  LogOut,
+  MapPin,
+  Package,
+  Settings,
+  User,
+  Zap,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -16,6 +25,7 @@ interface CustomerUser {
 const navItems = [
   { href: "/account" as const, icon: LayoutDashboard, key: "dashboard" },
   { href: "/account/orders" as const, icon: Package, key: "orders" },
+  { href: "/account/services" as const, icon: Zap, key: "services" },
   { href: "/account/addresses" as const, icon: MapPin, key: "addresses" },
   { href: "/account/settings" as const, icon: Settings, key: "settings" },
 ] as const;

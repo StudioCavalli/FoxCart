@@ -30,7 +30,11 @@ export async function POST(request: Request) {
           const w = (product.weight ?? 500) * item.quantity;
           totalWeight += w;
 
-          const dims = product.dimensions as { length?: number; width?: number; height?: number } | null;
+          const dims = product.dimensions as {
+            length?: number;
+            width?: number;
+            height?: number;
+          } | null;
           if (dims) {
             if ((dims.length ?? 0) > maxLength) maxLength = dims.length ?? 0;
             if ((dims.width ?? 0) > maxWidth) maxWidth = dims.width ?? 0;
@@ -57,7 +61,10 @@ export async function POST(request: Request) {
       height: Math.min(totalHeight, 150),
     });
 
-    return Response.json({ rates, packageInfo: { weight: totalWeight, length: maxLength, width: maxWidth, height: totalHeight } });
+    return Response.json({
+      rates,
+      packageInfo: { weight: totalWeight, length: maxLength, width: maxWidth, height: totalHeight },
+    });
   } catch (err) {
     console.error("Shipping rates error:", err);
     return Response.json({ error: "Failed to get rates" }, { status: 500 });

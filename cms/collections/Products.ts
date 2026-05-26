@@ -66,6 +66,17 @@ export const Products: CollectionConfig = {
       ],
     },
     { name: "featured", type: "checkbox", defaultValue: false },
+    { name: "isSubscription", type: "checkbox", defaultValue: false },
+    {
+      name: "subscriptionInterval",
+      type: "select",
+      admin: { condition: (_, siblingData) => siblingData?.isSubscription },
+      options: [
+        { label: "Mensuel", value: "monthly" },
+        { label: "Trimestriel", value: "quarterly" },
+        { label: "Annuel", value: "yearly" },
+      ],
+    },
     { name: "stripeProductId", type: "text", admin: { readOnly: true } },
     { name: "stripePriceId", type: "text", admin: { readOnly: true } },
     { name: "publishedAt", type: "date" },

@@ -2,10 +2,10 @@
 
 import { AccountShell } from "@/components/layout/AccountShell";
 import { AddressInput } from "@/components/shop/AddressInput";
-import { AddressMap } from "@/components/visual/AddressMap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
+import { AddressMap } from "@/components/visual/AddressMap";
 import { ArrowRight, MapPin, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";

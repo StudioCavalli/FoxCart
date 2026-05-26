@@ -9,6 +9,7 @@ import sharp from "sharp";
 import { BlogPosts } from "./cms/collections/BlogPosts";
 import { Coupons } from "./cms/collections/Coupons";
 import { Customers } from "./cms/collections/Customers";
+import { Deliverables } from "./cms/collections/Deliverables";
 import { Media } from "./cms/collections/Media";
 import { Orders } from "./cms/collections/Orders";
 import { Pages } from "./cms/collections/Pages";
@@ -18,6 +19,7 @@ import { Quotes } from "./cms/collections/Quotes";
 import { Reviews } from "./cms/collections/Reviews";
 import { ServiceCategories } from "./cms/collections/ServiceCategories";
 import { Services } from "./cms/collections/Services";
+import { Subscriptions } from "./cms/collections/Subscriptions";
 import { Testimonials } from "./cms/collections/Testimonials";
 import { Users } from "./cms/collections/Users";
 import { Navigation } from "./cms/globals/Navigation";
@@ -55,6 +57,8 @@ export default buildConfig({
     Coupons,
     Quotes,
     Reviews,
+    Subscriptions,
+    Deliverables,
     Testimonials,
     BlogPosts,
     Pages,

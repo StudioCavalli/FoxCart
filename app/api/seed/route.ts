@@ -100,6 +100,24 @@ export async function POST() {
     }
   }
 
+  // ── Marketing Digital category
+  const existingMktg = await payload.find({
+    collection: "product-categories",
+    where: { slug: { equals: "marketing-digital" } },
+  });
+  if (existingMktg.totalDocs === 0) {
+    await payload.create({
+      collection: "product-categories",
+      data: {
+        name: "Marketing Digital",
+        slug: "marketing-digital",
+        description: "Packs mensuels de marketing digital",
+        order: 5,
+      },
+    });
+    log.push("ProductCat: Marketing Digital");
+  }
+
   // ── Products
   const catMap: Record<string, number | string> = {};
   const allCats = await payload.find({ collection: "product-categories", limit: 50 });
@@ -315,6 +333,54 @@ export async function POST() {
       weight: 350,
       dimensions: { length: 30, width: 21, height: 1 },
     },
+    {
+      slug: "marketing-starter",
+      name: "Pack Starter",
+      shortDescription: "4 posts réseaux/mois, 1 visuel, rapport mensuel.",
+      category: "marketing-digital",
+      basePrice: 2990,
+      fulfillmentType: "internal" as const,
+      featured: true,
+      weight: 0,
+      dimensions: { length: 0, width: 0, height: 0 },
+      isSubscription: true,
+    },
+    {
+      slug: "marketing-business",
+      name: "Pack Business",
+      shortDescription: "12 posts/mois, 4 visuels, 1 vidéo, community management, rapport.",
+      category: "marketing-digital",
+      basePrice: 7990,
+      fulfillmentType: "internal" as const,
+      featured: true,
+      weight: 0,
+      dimensions: { length: 0, width: 0, height: 0 },
+      isSubscription: true,
+    },
+    {
+      slug: "marketing-premium",
+      name: "Pack Premium",
+      shortDescription: "Posts illimités, 8 visuels, 3 vidéos, CM complet, newsletter, media kit.",
+      category: "marketing-digital",
+      basePrice: 14990,
+      fulfillmentType: "internal" as const,
+      featured: true,
+      weight: 0,
+      dimensions: { length: 0, width: 0, height: 0 },
+      isSubscription: true,
+    },
+    {
+      slug: "marketing-enterprise",
+      name: "Pack Enterprise",
+      shortDescription: "Tout Premium + stratégie, ads, SEO, A/B testing, dashboard analytics.",
+      category: "marketing-digital",
+      basePrice: 29990,
+      fulfillmentType: "internal" as const,
+      featured: false,
+      weight: 0,
+      dimensions: { length: 0, width: 0, height: 0 },
+      isSubscription: true,
+    },
   ];
 
   for (const p of products) {
@@ -336,6 +402,10 @@ export async function POST() {
           weight: p.weight,
           dimensions: p.dimensions,
           hasVariants: false,
+          isSubscription: (p as { isSubscription?: boolean }).isSubscription ?? false,
+          subscriptionInterval: (p as { isSubscription?: boolean }).isSubscription
+            ? "monthly"
+            : undefined,
           publishedAt: new Date().toISOString(),
           _status: "published",
         },

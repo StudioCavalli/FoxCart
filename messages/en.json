@@ -203,6 +203,7 @@
     "title": "My Account",
     "dashboard": "Dashboard",
     "orders": "My Orders",
+    "services": "My Services",
     "addresses": "My Addresses",
     "settings": "Settings",
     "logout": "Sign out",
