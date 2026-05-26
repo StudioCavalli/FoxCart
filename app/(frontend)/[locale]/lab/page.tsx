@@ -22,7 +22,7 @@ function LabView() {
       <Header />
       <main>
         <section className="relative overflow-hidden border-b border-border py-32">
-          <Pattern />
+          <div className="absolute inset-0 -z-10 blueprint opacity-20" aria-hidden="true" />
           <Container className="relative">
             <Reveal>
               <SectionHeader number="00" label={t("section_label")} className="mb-6" />
@@ -68,7 +68,7 @@ function LabView() {
                 variant="subtle"
                 className="relative overflow-hidden p-10 text-center md:p-16"
               >
-                <Pattern className="opacity-[0.06]" />
+                <div className="absolute inset-0 blueprint opacity-10" aria-hidden="true" />
                 <div className="relative">
                   <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
                     {t("see_projects")}

@@ -24,7 +24,7 @@ function AboutView() {
       <Header />
       <main>
         <section className="relative overflow-hidden border-b border-border py-32">
-          <Pattern />
+          <div className="absolute inset-0 -z-10 blueprint opacity-20" aria-hidden="true" />
           <Container className="relative">
             <Reveal>
               <SectionHeader number="00" label={t("title")} className="mb-6" />
@@ -87,7 +87,7 @@ function AboutView() {
           <Container>
             <Reveal>
               <GlassCard variant="subtle" className="relative overflow-hidden p-10 md:p-16">
-                <Pattern className="opacity-[0.04]" />
+                <div className="absolute inset-0 blueprint opacity-10" aria-hidden="true" />
                 <div className="relative flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
                   <div>
                     <SectionHeader number="04" label={t("innovation_title")} className="mb-4" />

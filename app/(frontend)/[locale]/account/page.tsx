@@ -12,7 +12,7 @@ export default function AccountPage() {
   return (
     <AccountShell>
       <div className="relative overflow-hidden border-b border-border px-8 py-16 md:px-16">
-        <Pattern className="opacity-[0.02]" />
+        <div className="absolute inset-0 blueprint opacity-10" aria-hidden="true" />
         <div className="relative">
           <SectionHeader number="00" label={t("dashboard")} className="mb-4" />
           <h1 className="text-[clamp(2rem,4vw,3rem)] font-bold leading-[0.95] tracking-[-0.02em]">

@@ -306,7 +306,7 @@ function LabSection({ t }: { t: THome }) {
       <Container>
         <Reveal>
           <GlassCard variant="subtle" className="relative overflow-hidden p-10 md:p-16">
-            <Pattern className="opacity-[0.06]" />
+            <div className="absolute inset-0 blueprint opacity-10" aria-hidden="true" />
             <div className="relative flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
               <div>
                 <SectionHeader number="04" label="R&D" className="mb-4" />

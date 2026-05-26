@@ -46,7 +46,7 @@ export default function AdminDashboardPage() {
   return (
     <AdminShell>
       <div className="relative overflow-hidden border-b border-border px-8 py-12 md:px-16">
-        <Pattern className="opacity-[0.02]" />
+        <div className="absolute inset-0 blueprint opacity-10" aria-hidden="true" />
         <div className="relative">
           <SectionHeader number="00" label={t("dashboard.title")} className="mb-4" />
           <h1 className="text-[clamp(1.5rem,3vw,2.5rem)] font-bold tracking-tight">
