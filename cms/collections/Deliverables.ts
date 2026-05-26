@@ -1,10 +1,14 @@
 import type { CollectionConfig } from "payload";
+import { notifyOnDeliverableStatusChange } from "../hooks/deliverable-notifications";
 
 export const Deliverables: CollectionConfig = {
   slug: "deliverables",
   admin: {
     useAsTitle: "title",
     defaultColumns: ["title", "subscription", "type", "status", "dueDate"],
+  },
+  hooks: {
+    afterChange: [notifyOnDeliverableStatusChange],
   },
   fields: [
     { name: "subscription", type: "relationship", relationTo: "subscriptions", required: true },
