@@ -70,7 +70,7 @@ function HeroSection({ t }: { t: THome }) {
       {/* Title + manifesto */}
       <div className="flex flex-1 flex-col justify-between px-[var(--grid-margin)] py-16 md:py-24">
         <h1 className="font-medium leading-[0.88] tracking-[-0.03em] text-[clamp(72px,14vw,240px)]">
-          FoxCase<span className="text-accent">.</span>
+          {t("hero.title").replace(".", "")}<span className="text-accent">.</span>
         </h1>
 
         <div className="mt-16 grid gap-8 md:mt-0 md:grid-cols-[1fr_1fr] md:items-end">
