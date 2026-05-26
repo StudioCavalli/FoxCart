@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useCartStore } from "@/lib/cart";
 import { formatPrice } from "@/lib/utils";
-import { ArrowRight, Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
+import { ArrowRight, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -30,19 +30,15 @@ function CartDrawer() {
         )}
       </SheetTrigger>
 
-      <SheetContent side="right" className="flex w-full flex-col border-l border-border bg-background p-0 sm:w-[420px]">
+      <SheetContent
+        side="right"
+        className="flex w-full flex-col border-l border-border bg-background p-0 sm:w-[420px]"
+      >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-6 py-5">
+        <div className="border-b border-border px-6 py-5">
           <SheetTitle className="font-mono text-[11px] uppercase tracking-[0.2em] text-foreground">
             {t("title")} ({count})
           </SheetTitle>
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <X className="h-4 w-4" />
-          </button>
         </div>
 
         {items.length === 0 ? (
@@ -96,7 +92,9 @@ function CartDrawer() {
                       <div className="flex items-center border border-border">
                         <button
                           type="button"
-                          onClick={() => updateQuantity(item.productId, item.quantity - 1, item.variantSku)}
+                          onClick={() =>
+                            updateQuantity(item.productId, item.quantity - 1, item.variantSku)
+                          }
                           className="flex h-7 w-7 items-center justify-center transition-colors hover:bg-surface"
                         >
                           <Minus className="h-3 w-3" />
@@ -106,7 +104,9 @@ function CartDrawer() {
                         </span>
                         <button
                           type="button"
-                          onClick={() => updateQuantity(item.productId, item.quantity + 1, item.variantSku)}
+                          onClick={() =>
+                            updateQuantity(item.productId, item.quantity + 1, item.variantSku)
+                          }
                           className="flex h-7 w-7 items-center justify-center transition-colors hover:bg-surface"
                         >
                           <Plus className="h-3 w-3" />
@@ -131,7 +131,10 @@ function CartDrawer() {
                   placeholder={t("coupon_placeholder")}
                   className="rounded-none border-border font-mono text-xs uppercase tracking-wider"
                 />
-                <Button variant="outline" className="shrink-0 rounded-none border-border font-mono text-[10px] uppercase tracking-widest">
+                <Button
+                  variant="outline"
+                  className="shrink-0 rounded-none border-border font-mono text-[10px] uppercase tracking-widest"
+                >
                   {t("coupon_apply")}
                 </Button>
               </div>
@@ -139,12 +142,16 @@ function CartDrawer() {
               {/* Totals */}
               <div className="space-y-2 px-6 py-4">
                 <div className="flex justify-between font-mono text-xs">
-                  <span className="uppercase tracking-[0.15em] text-muted-foreground">{t("subtotal")}</span>
+                  <span className="uppercase tracking-[0.15em] text-muted-foreground">
+                    {t("subtotal")}
+                  </span>
                   <span className="tabular-nums">{formatPrice(subtotal())}</span>
                 </div>
                 <div className="flex justify-between text-sm font-medium">
                   <span>{t("total")}</span>
-                  <span className="font-mono tabular-nums text-accent">{formatPrice(subtotal())}</span>
+                  <span className="font-mono tabular-nums text-accent">
+                    {formatPrice(subtotal())}
+                  </span>
                 </div>
               </div>
 
