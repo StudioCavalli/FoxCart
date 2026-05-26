@@ -40,9 +40,25 @@ export default function CreateProductPage() {
 
   const basePrice = Math.round(costPrice * (1 + marginPercent / 100));
 
+  const [importFailed, setImportFailed] = useState(false);
+  const [jsonPaste, setJsonPaste] = useState("");
+
+  const applyData = (data: { name?: string; description?: string; costPrice?: number; weight?: number; dimensions?: { length?: number; width?: number; height?: number } }) => {
+    if (data.name) { setName(data.name); setSlug(slugify(data.name)); }
+    if (data.description) setDescription(data.description);
+    if (data.costPrice) setCostPrice(data.costPrice);
+    if (data.weight) setWeight(data.weight);
+    if (data.dimensions?.length) setLength(data.dimensions.length);
+    if (data.dimensions?.width) setWidth(data.dimensions.width);
+    if (data.dimensions?.height) setHeight(data.dimensions.height);
+    setSupplierUrl(importUrl);
+    setFulfillmentType("alibaba");
+  };
+
   const handleImportAlibaba = async () => {
     if (!importUrl.includes("alibaba.com")) return;
     setImporting(true);
+    setImportFailed(false);
     try {
       const res = await fetch("/api/admin/alibaba-scrape", {
         method: "POST",
@@ -51,19 +67,33 @@ export default function CreateProductPage() {
       });
       if (res.ok) {
         const data = await res.json();
-        if (data.name) setName(data.name);
-        if (data.name) setSlug(slugify(data.name));
-        if (data.description) setDescription(data.description);
-        if (data.costPrice) setCostPrice(data.costPrice);
-        if (data.weight) setWeight(data.weight);
-        if (data.dimensions?.length) setLength(data.dimensions.length);
-        if (data.dimensions?.width) setWidth(data.dimensions.width);
-        if (data.dimensions?.height) setHeight(data.dimensions.height);
+        if (data.name || data.costPrice) {
+          applyData(data);
+        } else {
+          setImportFailed(true);
+          setSupplierUrl(importUrl);
+          setFulfillmentType("alibaba");
+        }
+      } else {
+        setImportFailed(true);
         setSupplierUrl(importUrl);
         setFulfillmentType("alibaba");
       }
-    } catch {}
+    } catch {
+      setImportFailed(true);
+      setSupplierUrl(importUrl);
+      setFulfillmentType("alibaba");
+    }
     finally { setImporting(false); }
+  };
+
+  const handlePasteJson = () => {
+    try {
+      const data = JSON.parse(jsonPaste);
+      applyData(data);
+      setImportFailed(false);
+      setJsonPaste("");
+    } catch {}
   };
 
   useEffect(() => {
@@ -180,6 +210,37 @@ export default function CreateProductPage() {
                   {importing ? <Loader2 className="h-4 w-4 animate-spin" /> : "Importer"}
                 </button>
               </div>
+
+              {importFailed && (
+                <div className="mt-4 space-y-3 border-t border-accent/20 pt-4">
+                  <p className="text-xs text-muted-foreground">
+                    Alibaba bloque le scraping automatique. Ouvre le lien dans ton navigateur, puis utilise ce bookmarklet :
+                  </p>
+                  <div className="border border-border bg-background p-3">
+                    <code className="block whitespace-pre-wrap font-mono text-[10px] text-muted-foreground">
+                      {`javascript:void(function(){var t=document.title.replace(/ - Alibaba.com.*/,''),p=document.querySelector('[class*="price"]'),d=document.querySelector('meta[name="description"]');var r={name:t,description:d?d.content.substring(0,200):'',costPrice:p?Math.round(parseFloat(p.textContent.replace(/[^0-9.]/g,''))*92):0};navigator.clipboard.writeText(JSON.stringify(r));alert('Copié !')}())`}
+                    </code>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Glisse ce code dans ta barre de favoris, clique dessus sur la page Alibaba, puis colle le JSON ici :
+                  </p>
+                  <div className="flex gap-2">
+                    <Input
+                      value={jsonPaste}
+                      onChange={(e) => setJsonPaste(e.target.value)}
+                      placeholder='{"name":"...","costPrice":750,...}'
+                      className="flex-1 rounded-none border-border font-mono text-xs"
+                    />
+                    <button type="button" onClick={handlePasteJson} disabled={!jsonPaste}
+                      className="shrink-0 bg-foreground px-5 py-2 font-mono text-[11px] uppercase tracking-[0.15em] text-background transition-colors hover:bg-accent disabled:opacity-50">
+                      Appliquer
+                    </button>
+                  </div>
+                  <p className="text-xs text-accent">
+                    Ou remplis simplement les champs manuellement ci-dessous — le lien fournisseur est déjà configuré.
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Basic info */}
