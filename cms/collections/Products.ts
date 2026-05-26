@@ -1,0 +1,73 @@
+import type { CollectionConfig } from "payload";
+
+export const Products: CollectionConfig = {
+  slug: "products",
+  admin: {
+    useAsTitle: "name",
+    defaultColumns: ["name", "category", "basePrice", "fulfillmentType", "_status"],
+  },
+  versions: { drafts: true },
+  fields: [
+    { name: "name", type: "text", required: true, localized: true },
+    { name: "slug", type: "text", required: true, unique: true },
+    { name: "shortDescription", type: "textarea", localized: true, maxLength: 200 },
+    { name: "description", type: "richText", localized: true },
+    { name: "category", type: "relationship", relationTo: "product-categories", required: true },
+    {
+      name: "images",
+      type: "array",
+      minRows: 1,
+      maxRows: 10,
+      fields: [{ name: "image", type: "upload", relationTo: "media", required: true }],
+    },
+    { name: "basePrice", type: "number", required: true, min: 0 },
+    { name: "compareAtPrice", type: "number", min: 0 },
+    { name: "taxRate", type: "number", required: true, defaultValue: 20, min: 0, max: 100 },
+    { name: "hasVariants", type: "checkbox", defaultValue: false },
+    {
+      name: "variants",
+      type: "array",
+      admin: { condition: (_, siblingData) => siblingData?.hasVariants },
+      fields: [
+        { name: "name", type: "text", required: true },
+        {
+          name: "options",
+          type: "array",
+          fields: [
+            { name: "label", type: "text", required: true },
+            { name: "priceModifier", type: "number", defaultValue: 0 },
+            { name: "sku", type: "text", required: true },
+            { name: "stock", type: "number", defaultValue: 0, min: 0 },
+          ],
+        },
+      ],
+    },
+    {
+      name: "fulfillmentType",
+      type: "select",
+      required: true,
+      defaultValue: "internal",
+      options: [
+        { label: "Internal", value: "internal" },
+        { label: "Gelato", value: "gelato" },
+        { label: "Lulu Direct", value: "lulu" },
+        { label: "Alibaba", value: "alibaba" },
+      ],
+    },
+    { name: "externalProductId", type: "text" },
+    { name: "weight", type: "number", min: 0 },
+    {
+      name: "dimensions",
+      type: "group",
+      fields: [
+        { name: "length", type: "number", min: 0 },
+        { name: "width", type: "number", min: 0 },
+        { name: "height", type: "number", min: 0 },
+      ],
+    },
+    { name: "featured", type: "checkbox", defaultValue: false },
+    { name: "stripeProductId", type: "text", admin: { readOnly: true } },
+    { name: "stripePriceId", type: "text", admin: { readOnly: true } },
+    { name: "publishedAt", type: "date" },
+  ],
+};
