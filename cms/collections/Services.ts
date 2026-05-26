@@ -8,7 +8,7 @@ export const Services: CollectionConfig = {
     { name: "name", type: "text", required: true, localized: true },
     { name: "slug", type: "text", required: true, unique: true },
     { name: "tagline", type: "text", required: true, localized: true, maxLength: 120 },
-    { name: "description", type: "richText", required: true, localized: true },
+    { name: "description", type: "richText", localized: true },
     { name: "icon", type: "text", required: true },
     { name: "category", type: "relationship", relationTo: "service-categories", required: true },
     {

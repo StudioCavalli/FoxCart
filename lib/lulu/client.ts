@@ -1,4 +1,4 @@
-const LULU_BASE = "https://api.lulu.com";
+const LULU_BASE = process.env.LULU_API_URL || "https://api.lulu.com";
 
 let cachedToken: { token: string; expiresAt: number } | null = null;
 
@@ -7,10 +7,9 @@ async function getToken(): Promise<string> {
     return cachedToken.token;
   }
 
-  const key = process.env.LULU_API_KEY;
   const secret = process.env.LULU_API_SECRET;
-  if (!key || !secret) {
-    console.warn("LULU_API_KEY/LULU_API_SECRET not set");
+  if (!secret) {
+    console.warn("LULU_API_SECRET not set");
     return "";
   }
 
@@ -19,7 +18,6 @@ async function getToken(): Promise<string> {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
       grant_type: "client_credentials",
-      client_id: key,
       client_secret: secret,
     }),
   });

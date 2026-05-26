@@ -67,6 +67,55 @@ export async function POST() {
     }
   }
 
+  // ── Services
+  const svcCatMap: Record<string, number | string> = {};
+  const allSvcCats = await payload.find({ collection: "service-categories", limit: 50 });
+  for (const c of allSvcCats.docs) svcCatMap[c.slug] = c.id;
+
+  const servicesList = [
+    { slug: "business-plan", name: "Business Plan", tagline: "Structurez votre projet", icon: "BarChart3", category: "strategie", pricingType: "fixed" as const },
+    { slug: "business-model", name: "Business Model Canvas", tagline: "Définissez votre modèle économique", icon: "BarChart3", category: "strategie", pricingType: "fixed" as const },
+    { slug: "etude-de-marche", name: "Étude de marché", tagline: "Analysez votre marché et la concurrence", icon: "BarChart3", category: "strategie", pricingType: "fixed" as const },
+    { slug: "site-vitrine", name: "Site vitrine", tagline: "Un site web professionnel", icon: "Code2", category: "digital", pricingType: "from" as const },
+    { slug: "site-ecommerce", name: "Site e-commerce", tagline: "Vendez en ligne", icon: "Code2", category: "digital", pricingType: "from" as const },
+    { slug: "application-mobile", name: "Application mobile", tagline: "Apps iOS et Android", icon: "Code2", category: "digital", pricingType: "quote" as const },
+    { slug: "application-saas", name: "Application SaaS", tagline: "Plateformes web sur mesure", icon: "Code2", category: "digital", pricingType: "quote" as const },
+    { slug: "identite-visuelle", name: "Identité visuelle", tagline: "Logo, charte graphique, univers de marque", icon: "Megaphone", category: "communication", pricingType: "from" as const },
+    { slug: "community-management", name: "Community management", tagline: "Gestion de vos réseaux sociaux", icon: "Megaphone", category: "communication", pricingType: "from" as const },
+    { slug: "strategie-com", name: "Stratégie de communication", tagline: "Plan de communication global", icon: "Megaphone", category: "communication", pricingType: "from" as const },
+    { slug: "erp-crm", name: "ERP/CRM sur mesure", tagline: "Outils de gestion internes", icon: "Settings", category: "gestion", pricingType: "quote" as const },
+    { slug: "chefferie-projet", name: "Chefferie de projet", tagline: "Pilotage de vos projets digitaux", icon: "Settings", category: "gestion", pricingType: "hourly" as const },
+    { slug: "consulting", name: "Consulting digital", tagline: "Audit, conseil et accompagnement", icon: "Settings", category: "gestion", pricingType: "hourly" as const },
+    { slug: "formation-dev", name: "Formation développement", tagline: "Formations techniques pour écoles et entreprises", icon: "GraduationCap", category: "formation", pricingType: "hourly" as const },
+    { slug: "formation-outils", name: "Formation outils digitaux", tagline: "Maîtrisez les outils essentiels", icon: "GraduationCap", category: "formation", pricingType: "hourly" as const },
+    { slug: "maintenance", name: "Maintenance", tagline: "Maintenance corrective et évolutive", icon: "Wrench", category: "support", pricingType: "from" as const },
+    { slug: "hebergement", name: "Hébergement", tagline: "Haute disponibilité, sécurisé et monitoré", icon: "Wrench", category: "support", pricingType: "from" as const },
+    { slug: "support-technique", name: "Support technique", tagline: "Assistance réactive", icon: "Wrench", category: "support", pricingType: "from" as const },
+  ];
+
+  for (const svc of servicesList) {
+    const ex = await payload.find({ collection: "services", where: { slug: { equals: svc.slug } } });
+    if (ex.totalDocs === 0) {
+      const catId = svcCatMap[svc.category];
+      if (!catId) continue;
+      await payload.create({
+        collection: "services",
+        data: {
+          name: svc.name,
+          slug: svc.slug,
+          tagline: svc.tagline,
+          icon: svc.icon,
+          category: catId,
+          pricingType: svc.pricingType,
+          featured: false,
+          order: 0,
+          _status: "published",
+        },
+      });
+      log.push(`Service: ${svc.name}`);
+    }
+  }
+
   // ── Product categories
   const productCategories = [
     {
