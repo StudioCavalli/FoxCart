@@ -9,7 +9,7 @@ import { formatPrice } from "@/lib/utils";
 import { ArrowRight, CreditCard, Loader2, MapPin, Truck, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const STEPS = [
   { key: "auth", icon: User },
@@ -34,13 +34,64 @@ export default function CheckoutPage() {
     postalCode: "",
     country: "FR",
   });
+  const [savedAddresses, setSavedAddresses] = useState<
+    {
+      addressType: string;
+      firstName: string;
+      lastName: string;
+      address1: string;
+      city: string;
+      postalCode: string;
+      country: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    fetch("/api/customers/addresses")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d?.addresses?.length) {
+          setSavedAddresses(d.addresses);
+          const defaultShipping =
+            d.addresses.find(
+              (a: { addressType: string; isDefault: boolean }) =>
+                a.addressType === "shipping" && a.isDefault,
+            ) ?? d.addresses.find((a: { addressType: string }) => a.addressType === "shipping");
+          if (defaultShipping) {
+            setAddress({
+              firstName: defaultShipping.firstName ?? "",
+              lastName: defaultShipping.lastName ?? "",
+              address1: defaultShipping.address1 ?? "",
+              city: defaultShipping.city ?? "",
+              postalCode: defaultShipping.postalCode ?? "",
+              country: defaultShipping.country ?? "FR",
+            });
+          }
+        }
+      });
+  }, []);
 
   const shippingCost = 990;
   const total = subtotal() + shippingCost;
 
+  const saveAddressAfterOrder = async () => {
+    if (!address.address1 || !address.city) return;
+    await fetch("/api/customers/addresses", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        label: "Livraison",
+        addressType: "shipping",
+        ...address,
+        isDefault: true,
+      }),
+    }).catch(() => {});
+  };
+
   const handlePay = async () => {
     setLoading(true);
     try {
+      await saveAddressAfterOrder();
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
