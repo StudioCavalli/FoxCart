@@ -40,14 +40,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen">
+    <div className="relative flex h-screen overflow-hidden">
       <AuthPanel
         title="Votre espace"
         subtitle="Suivez vos commandes, gerez vos adresses et accedez a l'ensemble de vos services."
       />
 
       {/* Right — form */}
-      <div className="flex flex-1 flex-col justify-center px-8 sm:px-16 lg:px-24">
+      <div className="flex flex-1 flex-col justify-center overflow-y-auto px-8 py-16 sm:px-16 lg:px-24">
         <div className="mx-auto w-full max-w-sm">
           <Link
             href="/"

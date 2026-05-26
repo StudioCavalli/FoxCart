@@ -8,7 +8,7 @@ interface AuthPanelProps {
 
 function AuthPanel({ title, subtitle }: AuthPanelProps) {
   return (
-    <div className="relative hidden w-1/2 items-end overflow-hidden border-r border-border lg:flex">
+    <div className="relative hidden w-1/2 shrink-0 items-end overflow-hidden border-r border-border lg:flex">
       <Image src="/auth-bg.jpg" alt="" fill className="object-cover" priority />
       <div className="absolute inset-0 bg-background/85" />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
