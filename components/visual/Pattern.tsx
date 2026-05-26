@@ -12,13 +12,13 @@ function hash(seed: string): number {
   return h >>> 0;
 }
 
-function Pattern({ seed = "foxcase", variant = "halftone", className }: PatternProps) {
+function Pattern({ seed = "foxcase", className }: PatternProps) {
   const h = hash(seed);
   const cells = 14;
   const step = 200 / cells;
 
   return (
-    <div className={cn("relative h-full w-full overflow-hidden", className)} aria-hidden="true">
+    <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)} aria-hidden="true">
       <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" className="h-full w-full">
         <title>Decorative pattern</title>
         <g fill="currentColor">

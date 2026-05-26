@@ -57,7 +57,7 @@ function HeroSection({ t }: { t: THome }) {
         className="absolute -right-[10%] top-[40%] -z-10 hidden h-[80%] w-[60%] -translate-y-1/2 text-foreground opacity-[0.06] md:block"
         aria-hidden="true"
       >
-        <Pattern seed="foxcase-hero" variant="halftone" className="h-full w-full" />
+        <Pattern seed="foxcase-hero" className="relative h-full w-full" />
       </div>
 
       {/* Top metadata strip */}
