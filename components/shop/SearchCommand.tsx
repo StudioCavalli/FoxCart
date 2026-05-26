@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { useRouter } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/utils";
 import { Search } from "lucide-react";
@@ -62,6 +57,16 @@ function SearchCommand() {
     return () => clearTimeout(timer);
   }, [query, search]);
 
+  const navigate = (r: SearchResult) => {
+    setOpen(false);
+    setQuery("");
+    if (r.type === "product") {
+      router.push(`/shop/${r.categorySlug}/${r.slug}` as "/shop");
+    } else {
+      router.push(`/services/${r.slug}` as "/services");
+    }
+  };
+
   return (
     <>
       <button
@@ -73,23 +78,31 @@ function SearchCommand() {
         <Search className="h-4 w-4" strokeWidth={1.5} />
       </button>
 
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder={t("search")} value={query} onValueChange={setQuery} />
-        <CommandList>
-          <CommandEmpty>{t("no_results")}</CommandEmpty>
-          {results.map((r) => (
-            <CommandItem
-              key={`${r.type}-${r.id}`}
-              onSelect={() => {
-                setOpen(false);
-                if (r.type === "product") {
-                  router.push(`/shop/${r.categorySlug}/${r.slug}` as "/shop");
-                } else {
-                  router.push(`/services/${r.slug}` as "/services");
-                }
-              }}
-            >
-              <div className="flex w-full items-center justify-between">
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="top-[20%] translate-y-0 border-border bg-background p-0 sm:max-w-lg">
+          <DialogTitle className="sr-only">{t("search")}</DialogTitle>
+          <div className="border-b border-border p-4">
+            <Input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={`${t("search")} (Ctrl+K)`}
+              className="rounded-none border-0 bg-transparent p-0 font-mono text-sm focus-visible:ring-0"
+              autoFocus
+            />
+          </div>
+          <div className="max-h-80 overflow-y-auto">
+            {query.length >= 2 && results.length === 0 && (
+              <div className="px-4 py-8 text-center text-sm text-muted-foreground">
+                {t("no_results")}
+              </div>
+            )}
+            {results.map((r) => (
+              <button
+                key={`${r.type}-${r.id}`}
+                type="button"
+                onClick={() => navigate(r)}
+                className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-surface"
+              >
                 <div>
                   <div className="text-sm">{r.name}</div>
                   <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
@@ -99,11 +112,11 @@ function SearchCommand() {
                 {r.price > 0 && (
                   <span className="font-mono text-xs text-accent">{formatPrice(r.price)}</span>
                 )}
-              </div>
-            </CommandItem>
-          ))}
-        </CommandList>
-      </CommandDialog>
+              </button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

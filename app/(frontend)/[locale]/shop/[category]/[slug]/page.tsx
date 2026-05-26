@@ -88,7 +88,11 @@ export default async function ProductDetailPage({
                   )}
 
                   <div className="mt-8">
-                    <AddToCartButton productId={String(product.id)} name={name} price={product.basePrice} />
+                    <AddToCartButton
+                      productId={String(product.id)}
+                      name={name}
+                      price={product.basePrice}
+                    />
                   </div>
 
                   <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">

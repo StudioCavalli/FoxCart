@@ -30,7 +30,7 @@ function CartDrawer() {
         )}
       </SheetTrigger>
 
-      <SheetContent side="right" className="flex w-full flex-col bg-background sm:w-[420px]">
+      <SheetContent side="right" className="flex w-full flex-col bg-background pt-12 sm:w-[420px]">
         <SheetTitle className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
           {t("title")} ({count})
         </SheetTitle>
