@@ -8,10 +8,8 @@ export async function POST(request: Request) {
   try {
     const res = await fetch(url, {
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        Accept: "text/html,application/xhtml+xml",
-        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+        Accept: "text/html",
       },
     });
 
@@ -21,58 +19,94 @@ export async function POST(request: Request) {
 
     const html = await res.text();
 
-    const extract = (pattern: RegExp): string => {
-      const match = html.match(pattern);
-      return match?.[1]?.trim() ?? "";
+    // OG tags are the most reliable
+    const og = (prop: string) => {
+      const m = html.match(new RegExp(`<meta\\s+property="og:${prop}"\\s+content="([^"]*)"`, "i"))
+        ?? html.match(new RegExp(`<meta\\s+content="([^"]*)"\\s+property="og:${prop}"`, "i"));
+      return m?.[1]?.trim() ?? "";
     };
 
-    const title =
-      extract(/<title[^>]*>([^<]+)<\/title>/) ||
-      extract(/"subject":"([^"]+)"/) ||
-      extract(/class="product-title[^"]*"[^>]*>([^<]+)</) ||
-      "";
+    let name = og("title") || "";
+    // Clean Alibaba suffix
+    name = name.replace(/\s*[-|].*alibaba.*$/i, "").replace(/\s*-\s*Buy.*$/i, "").trim();
 
-    const cleanTitle = title
-      .replace(/ - Alibaba\.com.*$/, "")
-      .replace(/&amp;/g, "&")
-      .replace(/&#39;/g, "'")
-      .replace(/&quot;/g, '"')
-      .trim();
+    const image = og("image") || "";
+    const ogDesc = og("description") || "";
 
-    let minPrice = 0;
-    let maxPrice = 0;
-    const priceMatch = html.match(/\$(\d+\.?\d*)\s*-\s*\$(\d+\.?\d*)/);
-    if (priceMatch) {
-      minPrice = Math.round(parseFloat(priceMatch[1]!) * 100);
-      maxPrice = Math.round(parseFloat(priceMatch[2]!) * 100);
+    // Price from og:price or regex
+    let costPrice = 0;
+    const ogPrice = html.match(/property="og:price:amount"\s+content="([^"]+)"/i)
+      ?? html.match(/content="([^"]+)"\s+property="og:price:amount"/i);
+    if (ogPrice) {
+      costPrice = Math.round(parseFloat(ogPrice[1]!) * 100);
     } else {
-      const singlePrice = html.match(/\$(\d+\.?\d*)/);
-      if (singlePrice) {
-        minPrice = Math.round(parseFloat(singlePrice[1]!) * 100);
-        maxPrice = minPrice;
+      // Try USD price patterns
+      const pricePatterns = [
+        /\$\s*(\d+\.?\d*)\s*-\s*\$\s*(\d+\.?\d*)/,
+        /US\s*\$\s*(\d+\.?\d*)/,
+        /\$(\d+\.?\d*)/,
+      ];
+      for (const p of pricePatterns) {
+        const m = html.match(p);
+        if (m) {
+          // Convert USD to EUR cents (approx 0.92)
+          const usd = parseFloat(m[1]!);
+          costPrice = Math.round(usd * 92);
+          break;
+        }
       }
     }
 
-    const imageMatch = html.match(/"imageUrl":"(https:\/\/[^"]+)"/);
-    const image = imageMatch?.[1]?.replace(/\\u002F/g, "/") ?? "";
+    // Dimensions from structured data or description
+    let weight = 0;
+    let length = 0;
+    let width = 0;
+    let height = 0;
 
-    const descriptionParts: string[] = [];
-    const metaDesc = extract(/<meta\s+name="description"\s+content="([^"]+)"/);
-    if (metaDesc) descriptionParts.push(metaDesc.replace(/&amp;/g, "&").replace(/&#39;/g, "'"));
+    // Try common dimension patterns in HTML
+    const dimPatterns = [
+      /(\d+)\s*[x×]\s*(\d+)\s*(?:cm|CM)/,
+      /(\d+)\s*[x×]\s*(\d+)\s*[x×]\s*(\d+)\s*(?:cm|CM)/,
+      /size[:\s]*(\d+)\s*[x×]\s*(\d+)/i,
+    ];
+    for (const p of dimPatterns) {
+      const m = html.match(p);
+      if (m) {
+        length = parseInt(m[1]!) || 0;
+        width = parseInt(m[2]!) || 0;
+        height = m[3] ? parseInt(m[3]) : 0;
+        break;
+      }
+    }
 
-    const keywords = extract(/<meta\s+name="keywords"\s+content="([^"]+)"/);
+    // Weight
+    const weightMatch = html.match(/(\d+\.?\d*)\s*(?:kg|KG)/);
+    if (weightMatch) {
+      weight = Math.round(parseFloat(weightMatch[1]!) * 1000);
+    } else {
+      const weightG = html.match(/(\d+)\s*(?:g|G|gram)/);
+      if (weightG) weight = parseInt(weightG[1]!);
+    }
 
-    const moqMatch = html.match(/(\d+)\s*(piece|set|unit|pcs)/i);
+    // MOQ
+    const moqMatch = html.match(/(\d+)\s*(?:piece|set|unit|pcs|Piece|Set)/i);
     const moq = moqMatch ? parseInt(moqMatch[1]!) : 1;
 
+    // Clean description
+    const description = ogDesc
+      .replace(/&amp;/g, "&")
+      .replace(/&#39;/g, "'")
+      .replace(/&quot;/g, '"')
+      .substring(0, 200);
+
     return Response.json({
-      name: cleanTitle,
-      description: descriptionParts[0] ?? cleanTitle,
-      costPrice: minPrice,
-      costPriceMax: maxPrice,
+      name,
+      description: description || name,
+      costPrice,
       image,
+      weight,
+      dimensions: { length, width, height },
       moq,
-      keywords: keywords ?? "",
       supplierUrl: url,
     });
   } catch (err) {

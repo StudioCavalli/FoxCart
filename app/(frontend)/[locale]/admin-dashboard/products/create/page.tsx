@@ -55,6 +55,10 @@ export default function CreateProductPage() {
         if (data.name) setSlug(slugify(data.name));
         if (data.description) setDescription(data.description);
         if (data.costPrice) setCostPrice(data.costPrice);
+        if (data.weight) setWeight(data.weight);
+        if (data.dimensions?.length) setLength(data.dimensions.length);
+        if (data.dimensions?.width) setWidth(data.dimensions.width);
+        if (data.dimensions?.height) setHeight(data.dimensions.height);
         setSupplierUrl(importUrl);
         setFulfillmentType("alibaba");
       }
