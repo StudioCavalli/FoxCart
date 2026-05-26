@@ -208,6 +208,13 @@ Copy `.env.example` to `.env.local`. Docker defaults work out of the box for loc
 
 <br>
 
+## Documentation
+
+- [Deployment Guide](docs/DEPLOYMENT.md) — Vercel, Neon, Stripe, Packlink, Gelato, Lulu, Resend
+- [Admin Guide](docs/ADMIN-GUIDE.md) — CMS: products, services, orders, blog, globals
+- [Technical Specs](CAHIER-DES-CHARGES-TECHNIQUE.md) — Full technical specifications
+- [Milestones](MILESTONES.md) — All milestones and issues
+
 ## Related
 
 - **[FoxStudio](https://github.com/StudioCavalli/FoxStudio)** — R&D lab & innovation incubator (subsidiary)
