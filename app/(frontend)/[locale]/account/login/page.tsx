@@ -1,7 +1,7 @@
 "use client";
 
+import { AuthPanel } from "@/components/layout/AuthPanel";
 import { Input } from "@/components/ui/input";
-import { Pattern } from "@/components/visual";
 import { Link } from "@/i18n/navigation";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -41,27 +41,10 @@ export default function LoginPage() {
 
   return (
     <div className="relative flex min-h-screen">
-      {/* Left — branding panel */}
-      <div className="relative hidden w-1/2 items-end overflow-hidden border-r border-border lg:flex">
-        <Pattern />
-        <div className="relative px-16 pb-16">
-          <Link
-            href="/"
-            className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-foreground"
-          >
-            FoxCase
-          </Link>
-          <h2 className="mt-6 max-w-md text-[clamp(2rem,4vw,3.5rem)] font-bold leading-[0.95] tracking-[-0.03em]">
-            Votre espace<span className="text-accent">.</span>
-          </h2>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            Suivez vos commandes, gerez vos adresses et accedez a l'ensemble de vos services.
-          </p>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 border-t border-border px-16 py-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          45 Bd de la Croisette, Cannes
-        </div>
-      </div>
+      <AuthPanel
+        title="Votre espace"
+        subtitle="Suivez vos commandes, gerez vos adresses et accedez a l'ensemble de vos services."
+      />
 
       {/* Right — form */}
       <div className="flex flex-1 flex-col justify-center px-8 sm:px-16 lg:px-24">
