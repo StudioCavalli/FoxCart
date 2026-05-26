@@ -57,7 +57,7 @@ function HeroSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
       </div>
 
       {/* Main content */}
-      <div className="flex flex-1 flex-col justify-between px-[var(--grid-margin)] py-16 md:py-24">
+      <div className="flex flex-1 flex-col justify-end gap-16 px-[var(--grid-margin)] py-16 md:gap-24 md:py-24">
         <div>
           <h1 className="max-w-5xl font-bold leading-[0.92] tracking-[-0.03em] text-[clamp(3rem,10vw,10rem)]">
             FoxCase<span className="text-accent">.</span>
@@ -66,7 +66,7 @@ function HeroSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
           </h1>
         </div>
 
-        <div className="mt-16 grid gap-8 md:mt-0 md:grid-cols-2 md:items-end">
+        <div className="grid gap-8 md:grid-cols-2 md:items-end">
           <div className="space-y-3 text-[clamp(1rem,2vw,1.25rem)] leading-snug md:max-w-[30ch]">
             <Reveal>
               <p>{t("hero.subtitle")}</p>
