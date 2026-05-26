@@ -82,7 +82,140 @@ Un seul repository, un seul déploiement. Le front et le back cohabitent dans le
 | **Resend** | Emails transactionnels |
 | **Upstash Redis** | Sessions panier, rate-limiting, cache |
 
-### 2.7 Qualité & CI
+### 2.7 Conteneurisation (Docker)
+
+| Couche | Technologie | Justification |
+|---|---|---|
+| **Conteneurs** | Docker + Docker Compose | Environnement local reproductible, un seul `docker compose up` |
+| **Base de données locale** | PostgreSQL 16 (image officielle) | Pas de dépendance à Neon en dev |
+| **Cache local** | Redis (image officielle) | Remplace Upstash en local |
+| **Mail catcher** | Mailpit | Capture les emails en local (UI web sur :8025) |
+| **Reverse proxy** | Traefik (optionnel) | HTTPS local si nécessaire |
+
+**Architecture Docker Compose :**
+
+```yaml
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - DATABASE_URL=postgresql://foxcart:foxcart@postgres:5432/foxcart
+      - UPSTASH_REDIS_REST_URL=http://redis:6379
+      - RESEND_API_KEY=fake_for_dev
+      - PAYLOAD_SECRET=dev-secret-min-32-chars-long-here
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: foxcart
+      POSTGRES_PASSWORD: foxcart
+      POSTGRES_DB: foxcart
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U foxcart"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "8025:8025"   # Web UI
+      - "1025:1025"   # SMTP
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+volumes:
+  postgres_data:
+```
+
+**Dockerfile (multi-stage) :**
+
+```dockerfile
+# === Base ===
+FROM node:22-alpine AS base
+RUN corepack enable && corepack prepare pnpm@latest --activate
+WORKDIR /app
+
+# === Dependencies ===
+FROM base AS deps
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+# === Development ===
+FROM base AS development
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+EXPOSE 3000
+CMD ["pnpm", "dev"]
+
+# === Builder ===
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN pnpm build
+
+# === Production ===
+FROM base AS production
+ENV NODE_ENV=production
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+EXPOSE 3000
+CMD ["node", "server.js"]
+```
+
+**Scripts Docker :**
+
+```json
+{
+  "docker:up": "docker compose up -d",
+  "docker:down": "docker compose down",
+  "docker:build": "docker compose build",
+  "docker:logs": "docker compose logs -f app",
+  "docker:seed": "docker compose exec app pnpm payload:seed",
+  "docker:migrate": "docker compose exec app pnpm payload:migrate",
+  "docker:reset": "docker compose down -v && docker compose up -d"
+}
+```
+
+**Workflow local :**
+1. `docker compose up -d` → lance Postgres, Redis, Mailpit, et l'app Next.js
+2. `docker compose exec app pnpm payload:migrate` → applique les migrations
+3. `docker compose exec app pnpm payload:seed` → seed les données
+4. Accès : `http://localhost:3000` (site), `http://localhost:3000/admin` (CMS), `http://localhost:8025` (emails)
+5. Hot reload actif via volume mount
+6. Emails capturés dans Mailpit (pas d'envoi réel)
+
+### 2.8 Qualité & CI
 
 | Outil | Rôle |
 |---|---|
@@ -1038,7 +1171,14 @@ NEXT_PUBLIC_PLAUSIBLE_DOMAIN=        # foxcase.fr
   "payload:types": "payload generate:types",
   "payload:seed": "tsx scripts/seed.ts",
   "stripe:sync": "tsx scripts/sync-stripe.ts",
-  "alibaba:import": "tsx scripts/import-alibaba.ts"
+  "alibaba:import": "tsx scripts/import-alibaba.ts",
+  "docker:up": "docker compose up -d",
+  "docker:down": "docker compose down",
+  "docker:build": "docker compose build",
+  "docker:logs": "docker compose logs -f app",
+  "docker:seed": "docker compose exec app pnpm payload:seed",
+  "docker:migrate": "docker compose exec app pnpm payload:migrate",
+  "docker:reset": "docker compose down -v && docker compose up -d"
 }
 ```
 

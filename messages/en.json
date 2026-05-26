@@ -1,0 +1,205 @@
+{
+  "Site": {
+    "name": "FoxCase",
+    "tagline": "Your all-in-one digital agency",
+    "description": "FoxCase supports professionals and individuals in their digital projects: websites, applications, communication, training, and commercial materials."
+  },
+  "Nav": {
+    "services": "Services",
+    "shop": "Shop",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "quote": "Free Quote",
+    "account": "My Account",
+    "cart": "Cart",
+    "lab": "The Lab"
+  },
+  "Footer": {
+    "services": "Services",
+    "shop": "Shop",
+    "company": "Company",
+    "legal": "Legal",
+    "about": "About",
+    "contact": "Contact",
+    "blog": "Blog",
+    "lab": "FoxStudio Lab",
+    "mentions": "Legal Notice",
+    "privacy": "Privacy Policy",
+    "cgv": "Terms & Conditions",
+    "returns": "Returns",
+    "copyright": "© {year} FoxCase. All rights reserved.",
+    "subsidiary": "FoxStudio is the R&D laboratory of FoxCase"
+  },
+  "Home": {
+    "hero": {
+      "title": "Let's build your digital success together",
+      "subtitle": "From strategy to delivery, FoxCase designs your digital tools and produces your commercial materials.",
+      "cta_services": "Our services",
+      "cta_shop": "The shop"
+    },
+    "services": {
+      "title": "Our expertise",
+      "subtitle": "Solutions tailored to every need"
+    },
+    "products": {
+      "title": "Commercial materials",
+      "subtitle": "Banners, business cards, flyers, books and more"
+    },
+    "testimonials": {
+      "title": "They trust us"
+    },
+    "stats": {
+      "projects": "Projects delivered",
+      "clients": "Happy clients",
+      "years": "Years of experience",
+      "satisfaction": "Satisfaction"
+    },
+    "cta": {
+      "title": "Have a project? Let's talk",
+      "subtitle": "Request a free, no-obligation quote",
+      "button": "Request a quote"
+    },
+    "lab": {
+      "title": "FoxStudio — The Lab",
+      "subtitle": "Our innovation incubator",
+      "button": "Discover the Lab"
+    }
+  },
+  "Services": {
+    "title": "Our services",
+    "subtitle": "Custom services for professionals and individuals",
+    "from": "From",
+    "on_quote": "On quote",
+    "per_month": "/month",
+    "per_project": "/project",
+    "per_hour": "/hour",
+    "learn_more": "Learn more",
+    "get_quote": "Request a quote",
+    "process": "Our process",
+    "deliverables": "Deliverables",
+    "timeline": "Estimated timeline",
+    "faq": "FAQ"
+  },
+  "Shop": {
+    "title": "Shop",
+    "subtitle": "All your commercial materials in one place",
+    "filters": "Filters",
+    "sort": "Sort by",
+    "sort_price_asc": "Price: Low to High",
+    "sort_price_desc": "Price: High to Low",
+    "sort_newest": "Newest",
+    "sort_popular": "Popular",
+    "no_results": "No products found",
+    "add_to_cart": "Add to cart",
+    "in_stock": "In stock",
+    "on_order": "Made to order",
+    "remaining": "{count} remaining",
+    "reviews": "Reviews",
+    "similar": "Similar products",
+    "specifications": "Specifications"
+  },
+  "Cart": {
+    "title": "Your cart",
+    "empty": "Your cart is empty",
+    "continue_shopping": "Continue shopping",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "total": "Total",
+    "checkout": "Checkout",
+    "coupon_placeholder": "Promo code",
+    "coupon_apply": "Apply",
+    "coupon_applied": "Promo code applied",
+    "coupon_invalid": "Invalid promo code",
+    "remove": "Remove"
+  },
+  "Checkout": {
+    "title": "Checkout",
+    "step_auth": "Identification",
+    "step_address": "Address",
+    "step_shipping": "Shipping",
+    "step_payment": "Payment",
+    "step_review": "Review",
+    "guest": "Checkout as guest",
+    "login": "Sign in",
+    "register": "Create account",
+    "shipping_address": "Shipping address",
+    "billing_address": "Billing address",
+    "same_address": "Same as shipping",
+    "choose_shipping": "Choose your carrier",
+    "pay": "Pay {amount}",
+    "processing": "Processing...",
+    "success_title": "Order confirmed!",
+    "success_message": "Thank you for your order. A confirmation email has been sent.",
+    "order_number": "Order #",
+    "view_orders": "View my orders",
+    "continue": "Continue shopping"
+  },
+  "Account": {
+    "title": "My Account",
+    "dashboard": "Dashboard",
+    "orders": "My Orders",
+    "addresses": "My Addresses",
+    "settings": "Settings",
+    "logout": "Sign out",
+    "login_title": "Sign in",
+    "register_title": "Sign up",
+    "forgot_password": "Forgot password?",
+    "reset_password": "Reset password"
+  },
+  "Quote": {
+    "title": "Request a Quote",
+    "subtitle": "Describe your project, we'll respond within 48h",
+    "step_type": "Your profile",
+    "step_service": "Desired service",
+    "step_budget": "Budget & timeline",
+    "step_description": "Your needs",
+    "step_contact": "Your details",
+    "step_review": "Review",
+    "individual": "Individual",
+    "professional": "Professional",
+    "budget": "Estimated budget",
+    "timeline": "Desired timeline",
+    "submit": "Send my request",
+    "success_title": "Request sent!",
+    "success_message": "We've received your request and will respond within 48h."
+  },
+  "Contact": {
+    "title": "Contact",
+    "subtitle": "Have a question? Don't hesitate to reach out",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "subject": "Subject",
+    "message": "Message",
+    "type": "You are",
+    "individual": "Individual",
+    "professional": "Professional",
+    "submit": "Send",
+    "success": "Message sent successfully!"
+  },
+  "Blog": {
+    "title": "Blog",
+    "subtitle": "News, tips, and experience sharing",
+    "read_more": "Read more",
+    "published": "Published on {date}",
+    "min_read": "{minutes} min read"
+  },
+  "Common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "search": "Search...",
+    "no_results": "No results",
+    "see_all": "See all",
+    "price": "€{amount}",
+    "free": "Free"
+  }
+}

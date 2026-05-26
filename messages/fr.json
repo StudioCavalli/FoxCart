@@ -1,0 +1,205 @@
+{
+  "Site": {
+    "name": "FoxCase",
+    "tagline": "Votre agence digitale tout-en-un",
+    "description": "FoxCase accompagne les professionnels et particuliers dans leurs projets digitaux : sites web, applications, communication, formation et supports commerciaux."
+  },
+  "Nav": {
+    "services": "Services",
+    "shop": "Boutique",
+    "about": "À propos",
+    "blog": "Blog",
+    "contact": "Contact",
+    "quote": "Devis gratuit",
+    "account": "Mon compte",
+    "cart": "Panier",
+    "lab": "Le Lab"
+  },
+  "Footer": {
+    "services": "Services",
+    "shop": "Boutique",
+    "company": "Entreprise",
+    "legal": "Légal",
+    "about": "À propos",
+    "contact": "Contact",
+    "blog": "Blog",
+    "lab": "FoxStudio Lab",
+    "mentions": "Mentions légales",
+    "privacy": "Confidentialité",
+    "cgv": "CGV",
+    "returns": "Retours",
+    "copyright": "© {year} FoxCase. Tous droits réservés.",
+    "subsidiary": "FoxStudio est le laboratoire R&D de FoxCase"
+  },
+  "Home": {
+    "hero": {
+      "title": "Créons ensemble votre succès digital",
+      "subtitle": "De la stratégie à la réalisation, FoxCase conçoit vos outils digitaux et produit vos supports commerciaux.",
+      "cta_services": "Nos services",
+      "cta_shop": "La boutique"
+    },
+    "services": {
+      "title": "Nos expertises",
+      "subtitle": "Des solutions adaptées à chaque besoin"
+    },
+    "products": {
+      "title": "Supports commerciaux",
+      "subtitle": "Kakémonos, cartes de visite, flyers, livres et plus encore"
+    },
+    "testimonials": {
+      "title": "Ils nous font confiance"
+    },
+    "stats": {
+      "projects": "Projets livrés",
+      "clients": "Clients satisfaits",
+      "years": "Années d'expérience",
+      "satisfaction": "Satisfaction"
+    },
+    "cta": {
+      "title": "Un projet ? Parlons-en",
+      "subtitle": "Demandez un devis gratuit et sans engagement",
+      "button": "Demander un devis"
+    },
+    "lab": {
+      "title": "FoxStudio — Le Lab",
+      "subtitle": "Notre incubateur d'idées innovantes",
+      "button": "Découvrir le Lab"
+    }
+  },
+  "Services": {
+    "title": "Nos services",
+    "subtitle": "Des prestations sur mesure pour professionnels et particuliers",
+    "from": "À partir de",
+    "on_quote": "Sur devis",
+    "per_month": "/mois",
+    "per_project": "/projet",
+    "per_hour": "/heure",
+    "learn_more": "En savoir plus",
+    "get_quote": "Demander un devis",
+    "process": "Notre processus",
+    "deliverables": "Livrables",
+    "timeline": "Délai estimé",
+    "faq": "Questions fréquentes"
+  },
+  "Shop": {
+    "title": "La boutique",
+    "subtitle": "Tous vos supports commerciaux en un seul endroit",
+    "filters": "Filtres",
+    "sort": "Trier par",
+    "sort_price_asc": "Prix croissant",
+    "sort_price_desc": "Prix décroissant",
+    "sort_newest": "Nouveautés",
+    "sort_popular": "Populaires",
+    "no_results": "Aucun produit trouvé",
+    "add_to_cart": "Ajouter au panier",
+    "in_stock": "En stock",
+    "on_order": "Sur commande",
+    "remaining": "{count} restant(s)",
+    "reviews": "Avis",
+    "similar": "Produits similaires",
+    "specifications": "Caractéristiques"
+  },
+  "Cart": {
+    "title": "Votre panier",
+    "empty": "Votre panier est vide",
+    "continue_shopping": "Continuer les achats",
+    "subtotal": "Sous-total",
+    "shipping": "Livraison",
+    "total": "Total",
+    "checkout": "Commander",
+    "coupon_placeholder": "Code promo",
+    "coupon_apply": "Appliquer",
+    "coupon_applied": "Code promo appliqué",
+    "coupon_invalid": "Code promo invalide",
+    "remove": "Supprimer"
+  },
+  "Checkout": {
+    "title": "Commande",
+    "step_auth": "Identification",
+    "step_address": "Adresse",
+    "step_shipping": "Livraison",
+    "step_payment": "Paiement",
+    "step_review": "Récapitulatif",
+    "guest": "Commander en invité",
+    "login": "Se connecter",
+    "register": "Créer un compte",
+    "shipping_address": "Adresse de livraison",
+    "billing_address": "Adresse de facturation",
+    "same_address": "Identique à la livraison",
+    "choose_shipping": "Choisissez votre transporteur",
+    "pay": "Payer {amount}",
+    "processing": "Traitement en cours...",
+    "success_title": "Commande confirmée !",
+    "success_message": "Merci pour votre commande. Un email de confirmation vous a été envoyé.",
+    "order_number": "N° de commande",
+    "view_orders": "Voir mes commandes",
+    "continue": "Continuer les achats"
+  },
+  "Account": {
+    "title": "Mon compte",
+    "dashboard": "Tableau de bord",
+    "orders": "Mes commandes",
+    "addresses": "Mes adresses",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "login_title": "Connexion",
+    "register_title": "Inscription",
+    "forgot_password": "Mot de passe oublié ?",
+    "reset_password": "Réinitialiser le mot de passe"
+  },
+  "Quote": {
+    "title": "Demande de devis",
+    "subtitle": "Décrivez votre projet, nous vous répondons sous 48h",
+    "step_type": "Votre profil",
+    "step_service": "Service souhaité",
+    "step_budget": "Budget & délai",
+    "step_description": "Votre besoin",
+    "step_contact": "Vos coordonnées",
+    "step_review": "Récapitulatif",
+    "individual": "Particulier",
+    "professional": "Professionnel",
+    "budget": "Budget estimé",
+    "timeline": "Délai souhaité",
+    "submit": "Envoyer ma demande",
+    "success_title": "Demande envoyée !",
+    "success_message": "Nous avons bien reçu votre demande et vous répondrons sous 48h."
+  },
+  "Contact": {
+    "title": "Contact",
+    "subtitle": "Une question ? N'hésitez pas à nous écrire",
+    "name": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "subject": "Sujet",
+    "message": "Message",
+    "type": "Vous êtes",
+    "individual": "Particulier",
+    "professional": "Professionnel",
+    "submit": "Envoyer",
+    "success": "Message envoyé avec succès !"
+  },
+  "Blog": {
+    "title": "Blog",
+    "subtitle": "Actualités, conseils et retours d'expérience",
+    "read_more": "Lire la suite",
+    "published": "Publié le {date}",
+    "min_read": "{minutes} min de lecture"
+  },
+  "Common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "retry": "Réessayer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "confirm": "Confirmer",
+    "search": "Rechercher...",
+    "no_results": "Aucun résultat",
+    "see_all": "Voir tout",
+    "price": "{amount} €",
+    "free": "Gratuit"
+  }
+}
