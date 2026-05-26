@@ -9,6 +9,10 @@ interface EmailInput {
 }
 
 export async function sendEmail(input: EmailInput) {
+  if (!resend) {
+    console.warn("Email not sent (no API key):", input.subject);
+    return { success: false, error: "No API key" };
+  }
   try {
     const result = await resend.emails.send({
       from: `${SITE.tradeName} <noreply@${SITE.url.replace("https://", "").replace("http://", "")}>`,
