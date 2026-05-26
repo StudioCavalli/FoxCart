@@ -112,7 +112,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen">
+    <div className="relative flex h-screen overflow-hidden">
       <AuthPanel
         title="Rejoignez-nous"
         subtitle="Creez votre compte pour commander, suivre vos livraisons et gerer vos projets."
