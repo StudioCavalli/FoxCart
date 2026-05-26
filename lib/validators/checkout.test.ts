@@ -36,7 +36,14 @@ describe("checkout validation", () => {
   it("rejects invalid email", () => {
     const result = checkoutSchema.safeParse({
       email: "not-an-email",
-      shippingAddress: { firstName: "J", lastName: "D", address1: "A", city: "C", postalCode: "06400", country: "FR" },
+      shippingAddress: {
+        firstName: "J",
+        lastName: "D",
+        address1: "A",
+        city: "C",
+        postalCode: "06400",
+        country: "FR",
+      },
       shippingCost: 0,
     });
     expect(result.success).toBe(false);
@@ -49,7 +56,12 @@ describe("checkout validation", () => {
 
   it("rejects invalid country code", () => {
     const result = shippingAddressSchema.safeParse({
-      firstName: "Jean", lastName: "Dupont", address1: "10 rue", city: "Cannes", postalCode: "06400", country: "France",
+      firstName: "Jean",
+      lastName: "Dupont",
+      address1: "10 rue",
+      city: "Cannes",
+      postalCode: "06400",
+      country: "France",
     });
     expect(result.success).toBe(false);
   });

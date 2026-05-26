@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { useCartStore } from "./store";
 
 beforeEach(() => {
@@ -20,8 +20,12 @@ describe("cart store", () => {
   });
 
   it("treats different variants as different items", () => {
-    useCartStore.getState().addItem({ productId: "p1", name: "Test", price: 1000, variantSku: "A" });
-    useCartStore.getState().addItem({ productId: "p1", name: "Test", price: 1200, variantSku: "B" });
+    useCartStore
+      .getState()
+      .addItem({ productId: "p1", name: "Test", price: 1000, variantSku: "A" });
+    useCartStore
+      .getState()
+      .addItem({ productId: "p1", name: "Test", price: 1200, variantSku: "B" });
     expect(useCartStore.getState().items).toHaveLength(2);
   });
 
