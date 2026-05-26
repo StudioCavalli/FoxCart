@@ -2,6 +2,7 @@
 
 import { AccountShell } from "@/components/layout/AccountShell";
 import { AddressInput } from "@/components/shop/AddressInput";
+import { AddressMap } from "@/components/visual/AddressMap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
@@ -104,13 +105,14 @@ export default function AddressesPage() {
             </p>
           </div>
         ) : (
-          <div className="mb-8 grid gap-px bg-border sm:grid-cols-2">
+          <div className="mb-8 space-y-4">
             {shipping.map((addr) => (
-              <AddressCard
-                key={addr.id}
-                addr={addr}
-                onDelete={() => addr.id && handleDelete(addr.id)}
-              />
+              <div key={addr.id} className="grid gap-px bg-border sm:grid-cols-[1fr_1fr]">
+                <AddressCard addr={addr} onDelete={() => addr.id && handleDelete(addr.id)} />
+                <div className="bg-background">
+                  <AddressMap address={`${addr.address1}, ${addr.postalCode} ${addr.city}`} />
+                </div>
+              </div>
             ))}
           </div>
         )}
@@ -129,13 +131,14 @@ export default function AddressesPage() {
             </p>
           </div>
         ) : (
-          <div className="mb-8 grid gap-px bg-border sm:grid-cols-2">
+          <div className="mb-8 space-y-4">
             {billing.map((addr) => (
-              <AddressCard
-                key={addr.id}
-                addr={addr}
-                onDelete={() => addr.id && handleDelete(addr.id)}
-              />
+              <div key={addr.id} className="grid gap-px bg-border sm:grid-cols-[1fr_1fr]">
+                <AddressCard addr={addr} onDelete={() => addr.id && handleDelete(addr.id)} />
+                <div className="bg-background">
+                  <AddressMap address={`${addr.address1}, ${addr.postalCode} ${addr.city}`} />
+                </div>
+              </div>
             ))}
           </div>
         )}
