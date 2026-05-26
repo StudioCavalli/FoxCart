@@ -1,10 +1,11 @@
 import Stripe from "stripe";
 
-if (!process.env.STRIPE_SECRET_KEY) {
+const key = process.env.STRIPE_SECRET_KEY;
+
+if (!key) {
   console.warn("STRIPE_SECRET_KEY is not set — Stripe payments will not work.");
 }
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
-  apiVersion: "2025-08-27.basil",
-  typescript: true,
-});
+export const stripe = key
+  ? new Stripe(key, { apiVersion: "2025-08-27.basil", typescript: true })
+  : (null as unknown as Stripe);
