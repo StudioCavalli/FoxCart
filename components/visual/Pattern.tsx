@@ -1,24 +1,37 @@
 import { cn } from "@/lib/utils";
 
 interface PatternProps {
+  seed?: string;
+  variant?: "halftone";
   className?: string;
-  opacity?: number;
 }
 
-function Pattern({ className, opacity = 0.04 }: PatternProps) {
+function hash(seed: string): number {
+  let h = 5381;
+  for (let i = 0; i < seed.length; i++) h = (h * 33) ^ seed.charCodeAt(i);
+  return h >>> 0;
+}
+
+function Pattern({ seed = "foxcase", variant = "halftone", className }: PatternProps) {
+  const h = hash(seed);
+  const cells = 14;
+  const step = 200 / cells;
+
   return (
-    <div
-      className={cn("pointer-events-none absolute inset-0", className)}
-      style={{ opacity }}
-      aria-hidden="true"
-    >
-      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <pattern id="foxcart-grid" width="32" height="32" patternUnits="userSpaceOnUse">
-            <path d="M 32 0 L 0 0 0 32" fill="none" stroke="currentColor" strokeWidth="0.5" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#foxcart-grid)" className="text-accent" />
+    <div className={cn("relative h-full w-full overflow-hidden", className)} aria-hidden="true">
+      <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice" className="h-full w-full">
+        <title>Decorative pattern</title>
+        <g fill="currentColor">
+          {Array.from({ length: cells * cells }, (_, i) => {
+            const x = (i % cells) * step + step / 2;
+            const y = Math.floor(i / cells) * step + step / 2;
+            const dx = (x - 100) / 100;
+            const dy = (y - 100) / 100;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const r = Math.max(0.4, (1 - dist) * (step / 2.4) + ((h >> (i % 16)) & 1));
+            return <circle key={i} cx={x} cy={y} r={r > 0 ? r : 0.5} />;
+          })}
+        </g>
       </svg>
     </div>
   );

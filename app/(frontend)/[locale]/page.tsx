@@ -2,7 +2,6 @@ import { GlassCard } from "@/components/glass";
 import { Container, Footer, Header } from "@/components/layout";
 import { Marquee, Pattern, Reveal, SectionHeader } from "@/components/visual";
 import { Link } from "@/i18n/navigation";
-import { SITE } from "@/lib/site";
 import {
   ArrowRight,
   BarChart3,
@@ -49,27 +48,38 @@ type TCommon = ReturnType<typeof useTranslations<"Common">>;
 
 function HeroSection({ t }: { t: THome }) {
   return (
-    <section className="relative flex min-h-[calc(100vh-56px)] flex-col overflow-hidden border-b border-border">
-      <Pattern />
+    <section className="relative isolate flex min-h-[calc(100vh-56px)] flex-col overflow-hidden border-b border-border">
+      {/* Blueprint grid — CSS background like FoxStudio */}
+      <div className="absolute inset-0 -z-20 blueprint opacity-40" aria-hidden="true" />
+
+      {/* Halftone pattern — right side, procedural circles */}
+      <div
+        className="absolute -right-[10%] top-[40%] -z-10 hidden h-[80%] w-[60%] -translate-y-1/2 text-foreground opacity-[0.06] md:block"
+        aria-hidden="true"
+      >
+        <Pattern seed="foxcase-hero" variant="halftone" className="h-full w-full" />
+      </div>
+
+      {/* Top metadata strip */}
       <div className="flex items-center justify-between border-b border-border px-[var(--grid-margin)] py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-        <span>00 — {t("manifesto")}</span>
+        <span>00 ▸ {t("manifesto")}</span>
         <span className="hidden tabular-nums md:inline">{t("location")}</span>
         <span className="tabular-nums">v0.1.0</span>
       </div>
-      <div className="flex flex-1 flex-col justify-end gap-16 px-[var(--grid-margin)] py-16 md:gap-24 md:py-24">
-        <div>
-          <h1 className="max-w-5xl font-bold leading-[0.92] tracking-[-0.03em] text-[clamp(3rem,10vw,10rem)]">
-            FoxCase<span className="text-accent">.</span>
-            <br />
-            <span className="text-foreground/50">{t("tagline")}</span>
-          </h1>
-        </div>
-        <div className="grid gap-8 md:grid-cols-2 md:items-end">
-          <div className="space-y-3 text-[clamp(1rem,2vw,1.25rem)] leading-snug md:max-w-[30ch]">
+
+      {/* Title + manifesto */}
+      <div className="flex flex-1 flex-col justify-between px-[var(--grid-margin)] py-16 md:py-24">
+        <h1 className="font-medium leading-[0.88] tracking-[-0.03em] text-[clamp(72px,14vw,240px)]">
+          FoxCase<span className="text-accent">.</span>
+        </h1>
+
+        <div className="mt-16 grid gap-8 md:mt-0 md:grid-cols-[1fr_1fr] md:items-end">
+          <div className="space-y-3 text-[clamp(18px,2.4vw,32px)] leading-snug md:max-w-[28ch]">
             <Reveal>
               <p>{t("hero.subtitle")}</p>
             </Reveal>
           </div>
+
           <Reveal delay={150}>
             <div className="flex flex-col gap-4 sm:flex-row md:justify-end">
               <Link
@@ -89,12 +99,12 @@ function HeroSection({ t }: { t: THome }) {
           </Reveal>
         </div>
       </div>
+
+      {/* Bottom metadata strip */}
       <div className="flex items-center justify-between border-t border-border px-[var(--grid-margin)] py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-        <span aria-hidden="true">--- {t("scroll")}</span>
-        <span className="hidden md:inline">
-          {SITE.name} · {t("tagline")}
-        </span>
-        <span className="tabular-nums">{t("established")}</span>
+        <span aria-hidden="true">↓ {t("scroll")}</span>
+        <span className="hidden md:inline">FoxCase · {t("established")}</span>
+        <span className="tabular-nums">{t("location")}</span>
       </div>
     </section>
   );
