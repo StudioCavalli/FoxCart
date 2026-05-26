@@ -41,8 +41,9 @@ function Header() {
       <Container className="flex h-14 items-center justify-between">
         <Link
           href="/"
-          className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-foreground"
+          className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.3em] text-foreground"
         >
+          <img src="/fox.svg" alt="" className="h-5 w-auto invert" />
           FoxCase
         </Link>
 
