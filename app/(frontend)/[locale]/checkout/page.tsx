@@ -88,6 +88,7 @@ export default function CheckoutPage() {
           postalCode: address.postalCode,
           city: address.city,
           country: address.country,
+          items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
         }),
       });
       if (res.ok) {
