@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Reveal, SectionHeader } from "@/components/visual";
+import { Map } from "@/components/visual/Map";
 import { SITE } from "@/lib/site";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -38,7 +39,6 @@ export default function ContactPage() {
         <section className="border-b border-border py-24">
           <Container>
             <div className="grid gap-16 lg:grid-cols-[1fr_400px]">
-              {/* Form */}
               <Reveal>
                 <div>
                   <SectionHeader number="01" label="Message" className="mb-8" />
@@ -103,7 +103,6 @@ export default function ContactPage() {
                           className="rounded-none border-border"
                         />
                       </div>
-                      {/* Honeypot */}
                       <div className="hidden" aria-hidden="true">
                         <input type="text" name="website" tabIndex={-1} autoComplete="off" />
                       </div>
@@ -119,51 +118,64 @@ export default function ContactPage() {
                 </div>
               </Reveal>
 
-              {/* Info */}
               <Reveal delay={100}>
                 <div>
                   <SectionHeader number="02" label="Coordonnees" className="mb-8" />
                   <div className="space-y-6">
-                    <div className="flex items-start gap-4">
-                      <Mail className="mt-0.5 h-4 w-4 text-accent" strokeWidth={1.5} />
-                      <div>
-                        <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-                          Email
-                        </div>
-                        <a
-                          href={`mailto:${SITE.email}`}
-                          className="text-sm hover:text-accent transition-colors"
-                        >
-                          {SITE.email}
-                        </a>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <MapPin className="mt-0.5 h-4 w-4 text-accent" strokeWidth={1.5} />
-                      <div>
-                        <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-                          Localisation
-                        </div>
-                        <p className="text-sm">Paris, France</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <Phone className="mt-0.5 h-4 w-4 text-accent" strokeWidth={1.5} />
-                      <div>
-                        <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-                          Telephone
-                        </div>
-                        <p className="text-sm">Sur rendez-vous</p>
-                      </div>
-                    </div>
+                    <InfoRow icon={Mail} label="Email">
+                      <a
+                        href={`mailto:${SITE.email}`}
+                        className="text-sm transition-colors hover:text-accent"
+                      >
+                        {SITE.email}
+                      </a>
+                    </InfoRow>
+                    <InfoRow icon={MapPin} label="Adresse">
+                      <p className="text-sm">{SITE.address.street}</p>
+                      <p className="text-sm">
+                        {SITE.address.postalCode} {SITE.address.city}, {SITE.address.country}
+                      </p>
+                    </InfoRow>
+                    <InfoRow icon={Phone} label="Telephone">
+                      <p className="text-sm">Sur rendez-vous</p>
+                    </InfoRow>
                   </div>
                 </div>
               </Reveal>
             </div>
           </Container>
         </section>
+
+        {/* Map */}
+        <section className="border-b border-border">
+          <div className="relative h-[400px] w-full overflow-hidden">
+            <Map />
+          </div>
+        </section>
       </main>
       <Footer />
     </>
+  );
+}
+
+function InfoRow({
+  icon: Icon,
+  label,
+  children,
+}: {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-start gap-4">
+      <Icon className="mt-0.5 h-4 w-4 text-accent" strokeWidth={1.5} />
+      <div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+          {label}
+        </div>
+        {children}
+      </div>
+    </div>
   );
 }

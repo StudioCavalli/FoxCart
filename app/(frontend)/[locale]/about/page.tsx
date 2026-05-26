@@ -97,7 +97,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
                     </p>
                   </div>
                   <a
-                    href="https://foxstudio.fr"
+                    href="https://studio.foxcase.fr"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group inline-flex shrink-0 items-center gap-2 border border-border px-6 py-3 font-mono text-xs uppercase tracking-widest transition-colors hover:border-foreground"

@@ -220,6 +220,6 @@ Copy `.env.example` to `.env.local`. Docker defaults work out of the box for loc
 
 **FoxCase** · Agence digitale
 
-[Website](https://foxcase.fr) · [FoxStudio Lab](https://foxstudio.fr)
+[Website](https://foxcase.fr) · [FoxStudio Lab](https://studio.foxcase.fr) 
 
 </div>

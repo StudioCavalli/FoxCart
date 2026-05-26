@@ -52,7 +52,7 @@ function HeroSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
       {/* Top metadata strip */}
       <div className="flex items-center justify-between border-b border-border px-[var(--grid-margin)] py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
         <span>00 — Manifeste</span>
-        <span className="hidden tabular-nums md:inline">Paris, France · CET</span>
+        <span className="hidden tabular-nums md:inline">Cannes, France · CET</span>
         <span className="tabular-nums">v0.1.0</span>
       </div>
 
@@ -299,7 +299,7 @@ function LabSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
                 <p className="mt-3 max-w-md text-sm text-muted-foreground">{t("lab.subtitle")}</p>
               </div>
               <a
-                href="https://foxstudio.fr"
+                href="https://studio.foxcase.fr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex shrink-0 items-center gap-2 border border-border px-6 py-3 font-mono text-xs uppercase tracking-widest transition-colors hover:border-foreground"

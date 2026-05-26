@@ -82,12 +82,12 @@ function LabView() {
                     Explorez les experimentations, prototypes et innovations en cours.
                   </p>
                   <a
-                    href="https://foxstudio.fr"
+                    href="https://studio.foxcase.fr"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group mt-8 inline-flex items-center gap-2 bg-foreground px-8 py-4 text-sm font-medium text-background transition-colors hover:bg-accent"
                   >
-                    foxstudio.fr
+                    studio.foxcase.fr
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </a>
                 </div>
