@@ -69,11 +69,11 @@ function HomeView() {
             </Reveal>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {services.map((s, i) => (
-                <Reveal key={s.title} delay={150 + i * 80}>
-                  <GlassCard className="p-6">
+                <Reveal key={s.title} delay={150 + i * 80} className="h-full">
+                  <GlassCard className="flex h-full flex-col p-6">
                     <s.icon className="h-6 w-6 text-accent" />
                     <h3 className="mt-4 text-lg font-semibold">{s.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
                       {s.description}
                     </p>
                   </GlassCard>
