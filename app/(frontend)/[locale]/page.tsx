@@ -2,6 +2,7 @@ import { GlassCard } from "@/components/glass";
 import { Container, Footer, Header } from "@/components/layout";
 import { Pattern, Reveal, SectionHeader } from "@/components/visual";
 import { Link } from "@/i18n/navigation";
+import { BarChart3, Code2, GraduationCap, Megaphone, Settings, Wrench } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
@@ -70,7 +71,7 @@ function HomeView() {
               {services.map((s, i) => (
                 <Reveal key={s.title} delay={150 + i * 80}>
                   <GlassCard className="p-6">
-                    <span className="text-2xl">{s.icon}</span>
+                    <s.icon className="h-6 w-6 text-accent" />
                     <h3 className="mt-4 text-lg font-semibold">{s.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                       {s.description}
@@ -165,33 +166,33 @@ function HomeView() {
 
 const services = [
   {
-    icon: "📊",
-    title: "Stratégie",
-    description: "Business plan, business model, étude de marché. Structurez votre projet.",
+    icon: BarChart3,
+    title: "Strategie",
+    description: "Business plan, business model, etude de marche. Structurez votre projet.",
   },
   {
-    icon: "💻",
+    icon: Code2,
     title: "Digital",
-    description: "Sites web, applications mobiles, SaaS. Du concept au déploiement.",
+    description: "Sites web, applications mobiles, SaaS. Du concept au deploiement.",
   },
   {
-    icon: "📣",
+    icon: Megaphone,
     title: "Communication",
-    description: "Identité visuelle, charte graphique, community management.",
+    description: "Identite visuelle, charte graphique, community management.",
   },
   {
-    icon: "⚙️",
+    icon: Settings,
     title: "Gestion",
     description: "ERP/CRM sur mesure, chefferie de projet, consulting digital.",
   },
   {
-    icon: "🎓",
+    icon: GraduationCap,
     title: "Formation",
-    description: "Formations dev, outils digitaux, workshops pour écoles et entreprises.",
+    description: "Formations dev, outils digitaux, workshops pour ecoles et entreprises.",
   },
   {
-    icon: "🛠️",
+    icon: Wrench,
     title: "Support",
-    description: "Maintenance, hébergement, support technique. On veille sur vos outils.",
+    description: "Maintenance, hebergement, support technique. On veille sur vos outils.",
   },
 ];
