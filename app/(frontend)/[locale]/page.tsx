@@ -62,7 +62,7 @@ function HeroSection({ t }: { t: ReturnType<typeof useTranslations<"Home">> }) {
           <h1 className="max-w-5xl font-bold leading-[0.92] tracking-[-0.03em] text-[clamp(3rem,10vw,10rem)]">
             FoxCase<span className="text-accent">.</span>
             <br />
-            <span className="text-muted-foreground">Agence digitale.</span>
+            <span className="text-foreground/50">Agence digitale.</span>
           </h1>
         </div>
 
