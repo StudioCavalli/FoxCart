@@ -4,6 +4,7 @@ import { CartDrawer } from "@/components/shop/CartDrawer";
 import { SearchCommand } from "@/components/shop/SearchCommand";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Container } from "./Container";
@@ -70,6 +71,13 @@ function Header() {
             {t("quote")}
           </Link>
           <SearchCommand />
+          <Link
+            href="/account"
+            className="inline-flex h-9 w-9 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
+            aria-label="Mon compte"
+          >
+            <User className="h-4 w-4" strokeWidth={1.5} />
+          </Link>
           <CartDrawer />
           <MobileNav />
         </div>

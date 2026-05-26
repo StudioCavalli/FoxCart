@@ -28,6 +28,25 @@ export async function POST() {
     log.push("Admin user created");
   }
 
+  // ── Test customer
+  const existingCustomer = await payload.find({
+    collection: "customers",
+    where: { email: { equals: "test@foxcase.fr" } },
+  });
+  if (existingCustomer.totalDocs === 0) {
+    await payload.create({
+      collection: "customers",
+      data: {
+        email: "test@foxcase.fr",
+        password: "test2026",
+        firstName: "Jean",
+        lastName: "Dupont",
+        type: "individual",
+      },
+    });
+    log.push("Test customer created (test@foxcase.fr / test2026)");
+  }
+
   // ── Service categories
   const serviceCategories = [
     { name: "Strategie", slug: "strategie", icon: "BarChart3", order: 1 },
