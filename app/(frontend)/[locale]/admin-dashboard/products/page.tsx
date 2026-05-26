@@ -3,8 +3,9 @@
 import { AdminShell } from "@/components/layout/AdminShell";
 import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
+import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/utils";
-import { Package, Search } from "lucide-react";
+import { Package, Plus, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
@@ -38,9 +39,14 @@ export default function AdminProductsPage() {
 
   return (
     <AdminShell>
-      <div className="border-b border-border px-8 py-12 md:px-16">
-        <SectionHeader number="00" label={t("products.title")} className="mb-4" />
-        <h1 className="text-2xl font-bold tracking-tight">{t("products.title")}</h1>
+      <div className="flex items-center justify-between border-b border-border px-8 py-12 md:px-16">
+        <div>
+          <SectionHeader number="00" label={t("products.title")} className="mb-4" />
+          <h1 className="text-2xl font-bold tracking-tight">{t("products.title")}</h1>
+        </div>
+        <Link href="/admin-dashboard/products/create" className="group flex items-center gap-2 bg-accent px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.15em] text-accent-foreground transition-colors hover:bg-accent-hover">
+          <Plus className="h-3.5 w-3.5" /> {t("products.create")}
+        </Link>
       </div>
 
       <div className="flex items-center gap-4 border-b border-border px-8 py-3 md:px-16">

@@ -20,8 +20,11 @@ export const Products: CollectionConfig = {
       maxRows: 10,
       fields: [{ name: "image", type: "upload", relationTo: "media", required: true }],
     },
-    { name: "basePrice", type: "number", required: true, min: 0 },
+    { name: "costPrice", type: "number", min: 0, admin: { description: "Prix d'achat fournisseur (centimes)" } },
+    { name: "marginPercent", type: "number", min: 0, max: 500, admin: { description: "Marge en % (ex: 50 = x1.5)" } },
+    { name: "basePrice", type: "number", required: true, min: 0, admin: { description: "Prix de vente TTC (centimes)" } },
     { name: "compareAtPrice", type: "number", min: 0 },
+    { name: "supplierUrl", type: "text", admin: { description: "Lien vers le produit chez le fournisseur" } },
     { name: "taxRate", type: "number", required: true, defaultValue: 20, min: 0, max: 100 },
     { name: "hasVariants", type: "checkbox", defaultValue: false },
     {

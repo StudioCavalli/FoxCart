@@ -3,6 +3,7 @@
 import { AdminShell } from "@/components/layout/AdminShell";
 import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
+import { Link } from "@/i18n/navigation";
 import { FileText, Plus, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -33,13 +34,13 @@ export default function AdminBlogPage() {
         <SectionHeader number="00" label={t("blog.title")} className="mb-4" />
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight">{t("blog.title")}</h1>
-          <button
-            type="button"
-            className="flex items-center gap-2 border border-accent bg-accent/10 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.1em] text-accent transition-colors hover:bg-accent/20"
+          <Link
+            href="/admin-dashboard/blog/create"
+            className="flex items-center gap-2 bg-accent px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.15em] text-accent-foreground transition-colors hover:bg-accent-hover"
           >
             <Plus className="h-3.5 w-3.5" strokeWidth={2} />
             {t("blog.create")}
-          </button>
+          </Link>
         </div>
       </div>
 
