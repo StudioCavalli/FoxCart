@@ -35,13 +35,13 @@ export default function AdminOrdersPage() {
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    fetch("/api/admin/stats")
+    fetch("/api/admin/orders")
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (d?.recentOrders) setOrders(d.recentOrders);
-      })
+      .then((d) => setOrders(d?.docs ?? []))
       .catch(() => {});
   }, []);
+
+  const filtered = filter === "all" ? orders : orders.filter((o) => o.status === filter);
 
   return (
     <AdminShell>
@@ -73,7 +73,7 @@ export default function AdminOrdersPage() {
       </div>
 
       <div className="px-8 py-6 md:px-16">
-        {orders.length === 0 ? (
+        {filtered.length === 0 ? (
           <p className="py-16 text-center text-sm text-muted-foreground">
             {t("common.no_results")}
           </p>
@@ -85,7 +85,7 @@ export default function AdminOrdersPage() {
               <span>{t("orders.total")}</span>
               <span>{t("orders.date")}</span>
             </div>
-            {orders.map((o) => (
+            {filtered.map((o) => (
               <div
                 key={o.id}
                 className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"

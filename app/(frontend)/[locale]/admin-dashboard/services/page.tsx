@@ -5,19 +5,26 @@ import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
 import { BarChart3, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Service {
   id: string;
   name: string;
-  description: string;
-  price: number;
-  active: boolean;
+  category: { id: string; name: string } | string;
+  pricingType: "fixed" | "from" | "quote" | "hourly";
+  featured: boolean;
 }
 
 export default function AdminServicesPage() {
   const t = useTranslations("Admin");
-  const [services] = useState<Service[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+
+  useEffect(() => {
+    fetch("/api/admin/services")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setServices(d?.docs ?? []))
+      .catch(() => {});
+  }, []);
 
   return (
     <AdminShell>
@@ -46,25 +53,28 @@ export default function AdminServicesPage() {
           </div>
         ) : (
           <div className="border border-border">
-            <div className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 border-b border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
               <span>{t("services.name")}</span>
-              <span>{t("services.price")}</span>
-              <span>{t("services.status")}</span>
+              <span>{t("services.category")}</span>
+              <span>{t("services.pricing_type")}</span>
+              <span>{t("services.featured")}</span>
             </div>
             {services.map((s) => (
               <div
                 key={s.id}
-                className="grid grid-cols-[1fr_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"
+                className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"
               >
-                <div>
-                  <div className="text-sm font-medium">{s.name}</div>
-                  <div className="font-mono text-[10px] text-muted-foreground">{s.description}</div>
-                </div>
-                <span className="font-mono text-sm tabular-nums">{s.price}</span>
+                <span className="text-sm font-medium">{s.name}</span>
+                <span className="font-mono text-xs text-muted-foreground">
+                  {typeof s.category === "object" ? s.category.name : s.category}
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                  {s.pricingType}
+                </span>
                 <span
-                  className={`font-mono text-[10px] uppercase tracking-[0.1em] ${s.active ? "text-accent" : "text-muted-foreground"}`}
+                  className={`font-mono text-[10px] uppercase tracking-[0.1em] ${s.featured ? "text-accent" : "text-muted-foreground"}`}
                 >
-                  {s.active ? t("common.active") : t("common.inactive")}
+                  {s.featured ? t("common.yes") : t("common.no")}
                 </span>
               </div>
             ))}

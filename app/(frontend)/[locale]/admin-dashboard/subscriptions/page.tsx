@@ -3,21 +3,31 @@
 import { AdminShell } from "@/components/layout/AdminShell";
 import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
+import { formatPrice } from "@/lib/utils";
 import { Search, Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Subscription {
   id: string;
-  customerEmail: string;
   plan: string;
-  status: string;
-  nextBilling: string;
+  customer: { id: string; email: string; firstName?: string; lastName?: string } | string;
+  status: "active" | "paused" | "cancelled" | "expired";
+  monthlyPrice: number;
+  startDate: string;
+  nextBillingDate?: string;
 }
 
 export default function AdminSubscriptionsPage() {
   const t = useTranslations("Admin");
-  const [subscriptions] = useState<Subscription[]>([]);
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+
+  useEffect(() => {
+    fetch("/api/admin/subscriptions")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setSubscriptions(d?.docs ?? []))
+      .catch(() => {});
+  }, []);
 
   return (
     <AdminShell>
@@ -46,24 +56,30 @@ export default function AdminSubscriptionsPage() {
           </div>
         ) : (
           <div className="border border-border">
-            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 border-b border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-              <span>{t("subscriptions.customer")}</span>
+            <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 border-b border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
               <span>{t("subscriptions.plan")}</span>
+              <span>{t("subscriptions.customer")}</span>
               <span>{t("subscriptions.status")}</span>
-              <span>{t("subscriptions.next_billing")}</span>
+              <span>{t("subscriptions.price")}</span>
+              <span>{t("subscriptions.start_date")}</span>
             </div>
             {subscriptions.map((s) => (
               <div
                 key={s.id}
-                className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"
+                className="grid grid-cols-[1fr_auto_auto_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"
               >
-                <span className="text-sm font-medium">{s.customerEmail}</span>
-                <span className="font-mono text-xs text-muted-foreground">{s.plan}</span>
+                <span className="text-sm font-medium">{s.plan}</span>
+                <span className="font-mono text-xs text-muted-foreground">
+                  {typeof s.customer === "object" ? s.customer.email : s.customer}
+                </span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-accent">
-                  {s.status}
+                  {t(`subscriptions.${s.status}`)}
+                </span>
+                <span className="font-mono text-sm tabular-nums">
+                  {formatPrice(s.monthlyPrice)}
                 </span>
                 <span className="font-mono text-[10px] text-muted-foreground">
-                  {new Date(s.nextBilling).toLocaleDateString("fr-FR")}
+                  {new Date(s.startDate).toLocaleDateString("fr-FR")}
                 </span>
               </div>
             ))}

@@ -407,6 +407,7 @@
       "title": "Customers",
       "name": "Name",
       "email": "Email",
+      "date": "Date",
       "type": "Type",
       "orders_count": "Orders",
       "total_spent": "Total spent",
@@ -478,7 +479,8 @@
       "low": "Low",
       "normal": "Normal",
       "high": "High",
-      "urgent": "Urgent"
+      "urgent": "Urgent",
+      "due_date": "Due date"
     },
     "quotes": {
       "title": "Quotes",
@@ -494,7 +496,9 @@
       "contacted": "Contacted",
       "quoted": "Quoted",
       "accepted": "Accepted",
-      "rejected": "Rejected"
+      "rejected": "Rejected",
+      "contact": "Contact",
+      "email": "Email"
     },
     "blog": {
       "title": "Blog",
@@ -505,7 +509,9 @@
       "status": "Status",
       "draft": "Draft",
       "published": "Published",
-      "create": "Create article"
+      "create": "Create article",
+      "post_title": "Title",
+      "date": "Date"
     },
     "settings": {
       "title": "Settings",
@@ -515,7 +521,13 @@
       "navigation": "Navigation",
       "shop": "Shop",
       "lab": "FoxStudio Lab",
-      "saved": "Settings saved"
+      "saved": "Settings saved",
+      "site_title": "Site title",
+      "meta_description": "Meta description",
+      "contact_email": "Contact email",
+      "contact_phone": "Phone",
+      "currency": "Currency",
+      "tax_rate": "Tax rate (%)"
     },
     "common": {
       "create": "Create",
@@ -537,7 +549,9 @@
       "confirm_delete": "Are you sure you want to delete this item?",
       "success": "Operation successful",
       "error": "An error occurred",
-      "back_to_site": "Back to site"
+      "back_to_site": "Back to site",
+      "yes": "Yes",
+      "no": "No"
     },
     "statuses": {
       "pending": "Pending",

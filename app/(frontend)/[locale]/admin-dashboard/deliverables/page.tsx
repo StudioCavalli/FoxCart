@@ -5,14 +5,15 @@ import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
 import { Layers, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Deliverable {
   id: string;
   title: string;
-  status: string;
-  customer: string;
-  updatedAt: string;
+  type: "visual" | "video" | "report" | "media_kit" | "post" | "newsletter" | "strategy" | "other";
+  status: "draft" | "in_progress" | "review" | "approved" | "revision_requested" | "delivered";
+  dueDate: string | null;
+  priority: "low" | "normal" | "high" | "urgent";
 }
 
 const statuses = [
@@ -20,14 +21,22 @@ const statuses = [
   "draft",
   "in_progress",
   "review",
+  "approved",
   "revision_requested",
   "delivered",
 ] as const;
 
 export default function AdminDeliverablesPage() {
   const t = useTranslations("Admin");
-  const [deliverables] = useState<Deliverable[]>([]);
+  const [deliverables, setDeliverables] = useState<Deliverable[]>([]);
   const [filter, setFilter] = useState<string>("all");
+
+  useEffect(() => {
+    fetch("/api/admin/deliverables")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setDeliverables(d?.docs ?? []))
+      .catch(() => {});
+  }, []);
 
   const filtered =
     filter === "all" ? deliverables : deliverables.filter((d) => d.status === filter);
@@ -75,24 +84,38 @@ export default function AdminDeliverablesPage() {
           </div>
         ) : (
           <div className="border border-border">
-            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 border-b border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+            <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 border-b border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
               <span>{t("deliverables.name")}</span>
-              <span>{t("deliverables.customer")}</span>
+              <span>{t("deliverables.type")}</span>
               <span>{t("deliverables.status")}</span>
-              <span>{t("deliverables.updated")}</span>
+              <span>{t("deliverables.due_date")}</span>
+              <span>{t("deliverables.priority")}</span>
             </div>
             {filtered.map((d) => (
               <div
                 key={d.id}
-                className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"
+                className="grid grid-cols-[1fr_auto_auto_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"
               >
                 <span className="text-sm font-medium">{d.title}</span>
-                <span className="font-mono text-xs text-muted-foreground">{d.customer}</span>
+                <span className="font-mono text-xs text-muted-foreground">
+                  {t(`deliverables.type_${d.type}`)}
+                </span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-accent">
                   {t(`deliverables.${d.status}`)}
                 </span>
                 <span className="font-mono text-[10px] text-muted-foreground">
-                  {new Date(d.updatedAt).toLocaleDateString("fr-FR")}
+                  {d.dueDate ? new Date(d.dueDate).toLocaleDateString("fr-FR") : "---"}
+                </span>
+                <span
+                  className={`font-mono text-[10px] uppercase tracking-[0.1em] ${
+                    d.priority === "urgent"
+                      ? "text-destructive"
+                      : d.priority === "high"
+                        ? "text-warning"
+                        : "text-muted-foreground"
+                  }`}
+                >
+                  {t(`deliverables.priority_${d.priority}`)}
                 </span>
               </div>
             ))}

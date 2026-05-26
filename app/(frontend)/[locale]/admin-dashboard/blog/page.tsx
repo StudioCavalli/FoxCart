@@ -5,18 +5,27 @@ import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
 import { FileText, Plus, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface BlogPost {
   id: string;
   title: string;
-  status: string;
+  author: string;
+  tags?: { tag: string }[];
   publishedAt: string | null;
+  _status: "draft" | "published";
 }
 
 export default function AdminBlogPage() {
   const t = useTranslations("Admin");
-  const [posts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    fetch("/api/admin/blog")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setPosts(d?.docs ?? []))
+      .catch(() => {});
+  }, []);
 
   return (
     <AdminShell>
@@ -54,19 +63,29 @@ export default function AdminBlogPage() {
           </div>
         ) : (
           <div className="border border-border">
-            <div className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+            <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 border-b border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
               <span>{t("blog.post_title")}</span>
+              <span>{t("blog.author")}</span>
+              <span>{t("blog.tags")}</span>
               <span>{t("blog.status")}</span>
               <span>{t("blog.date")}</span>
             </div>
             {posts.map((p) => (
               <div
                 key={p.id}
-                className="grid grid-cols-[1fr_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"
+                className="grid grid-cols-[1fr_auto_auto_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"
               >
                 <span className="text-sm font-medium">{p.title}</span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
-                  {p.status}
+                <span className="font-mono text-xs text-muted-foreground">{p.author}</span>
+                <span className="font-mono text-[10px] text-muted-foreground">
+                  {p.tags?.map((t) => t.tag).join(", ") || "---"}
+                </span>
+                <span
+                  className={`font-mono text-[10px] uppercase tracking-[0.1em] ${
+                    p._status === "published" ? "text-accent" : "text-muted-foreground"
+                  }`}
+                >
+                  {p._status}
                 </span>
                 <span className="font-mono text-[10px] text-muted-foreground">
                   {p.publishedAt ? new Date(p.publishedAt).toLocaleDateString("fr-FR") : "---"}

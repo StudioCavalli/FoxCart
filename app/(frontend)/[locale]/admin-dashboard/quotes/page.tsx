@@ -5,13 +5,15 @@ import { Input } from "@/components/ui/input";
 import { SectionHeader } from "@/components/visual";
 import { MessageSquare, Search } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Quote {
   id: string;
-  name: string;
+  quoteNumber: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  status: string;
+  status: "new" | "contacted" | "quoted" | "accepted" | "rejected";
   createdAt: string;
 }
 
@@ -19,8 +21,15 @@ const statuses = ["all", "new", "contacted", "quoted", "accepted", "rejected"] a
 
 export default function AdminQuotesPage() {
   const t = useTranslations("Admin");
-  const [quotes] = useState<Quote[]>([]);
+  const [quotes, setQuotes] = useState<Quote[]>([]);
   const [filter, setFilter] = useState<string>("all");
+
+  useEffect(() => {
+    fetch("/api/admin/quotes")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setQuotes(d?.docs ?? []))
+      .catch(() => {});
+  }, []);
 
   const filtered = filter === "all" ? quotes : quotes.filter((q) => q.status === filter);
 
@@ -67,7 +76,8 @@ export default function AdminQuotesPage() {
           </div>
         ) : (
           <div className="border border-border">
-            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 border-b border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+            <div className="grid grid-cols-[auto_1fr_auto_auto_auto] gap-4 border-b border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              <span>{t("quotes.number")}</span>
               <span>{t("quotes.contact")}</span>
               <span>{t("quotes.email")}</span>
               <span>{t("quotes.status")}</span>
@@ -76,9 +86,12 @@ export default function AdminQuotesPage() {
             {filtered.map((q) => (
               <div
                 key={q.id}
-                className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"
+                className="grid grid-cols-[auto_1fr_auto_auto_auto] items-center gap-4 border-b border-border px-4 py-3 last:border-0 transition-colors hover:bg-surface"
               >
-                <span className="text-sm font-medium">{q.name}</span>
+                <span className="font-mono text-xs text-muted-foreground">{q.quoteNumber}</span>
+                <span className="text-sm font-medium">
+                  {q.firstName} {q.lastName}
+                </span>
                 <span className="font-mono text-xs text-muted-foreground">{q.email}</span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-accent">
                   {t(`quotes.${q.status}`)}
